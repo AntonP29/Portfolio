@@ -170,6 +170,9 @@
 
         .cta-buttons {
             display: flex;
+            flex-direction: row; /* Change to horizontal */
+            align-items: center;
+            justify-content: center; /* Adjust spacing as needed */
             gap: 1rem;
         }
 
@@ -475,6 +478,42 @@
             display: inline-flex; /* Helps align the icon and text */
             align-items: center; /* Vertically centers the GitHub icon with text */
         }
+
+        .progress {
+            background: rgba(255, 255, 255, 0.1);
+            justify-content: flex-start;
+            border-radius: 100px;
+            align-items: center;
+            position: relative;
+            padding: 0 5px;
+            display: flex;
+            height: 20px;
+            width: 100%; /* Full width of container */
+            max-width: 200px; /* Cap width */
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: border 0.3s ease, opacity 0.1s ease;
+            margin: 1rem auto 0; /* Center horizontally, add space above */
+        }
+
+        .progress-value {
+            animation: load 1.5s normal forwards;
+            box-shadow: 0 10px 40px -10px #fff;
+            border-radius: 100px;
+            background: #fff;
+            height: 14px; /* Adjusted to fit smaller progress bar */
+            width: 0;
+        }
+
+        @keyframes load {
+            0% { width: 0; }
+            100% { width: 100%; } /* You can tweak this */
+        }
+
+        .progress.fade-out {
+            opacity: 0;
+        }
     </style>
 </head>
 <body class="loading">
@@ -502,6 +541,9 @@
                 <div class="cta-buttons">
                     <a href="#projects" class="btn">View Projects</a>
                     <a href="#" class="contact-link btn">Contact Me</a>
+                </div>
+                <div class="progress">
+                    <div class="progress-value"></div>
                 </div>
             </div>
         </section>
@@ -1007,6 +1049,7 @@
         }
 
         // Initialize gradient after DOM is ready
+        // Initialize gradient after DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
             var gradient = new Gradient();
             gradient.initGradient("#gradient-canvas");
@@ -1060,19 +1103,24 @@
                     }, 500);
                 }
             });
-        });
 
-        // Final scroll check on reload
-        window.addEventListener('load', () => {
-            window.scrollTo(0, 0);
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-            setTimeout(() => {
-                console.log('Scroll position after load:', window.scrollY);
-                if (window.scrollY !== 0) {
-                    window.scrollTo(0, 0);
-                }
-            }, 0);
+            // Loading bar functionality - Sync with gradient init
+            const progressBar = document.querySelector('.progress');
+            if (progressBar) {
+                const startProgress = () => {
+                    if (!document.body.classList.contains('loading')) {
+                        setTimeout(() => {
+                            progressBar.classList.add('fade-out');
+                            setTimeout(() => {
+                                progressBar.style.display = 'none';
+                            }, 50); // Matches 0.5s fade-out transition
+                        }, 50); // 2s animation + 2s delay
+                    } else {
+                        requestAnimationFrame(startProgress); // Keep checking
+                    }
+                };
+                requestAnimationFrame(startProgress);
+            }
         });
     </script>
 </body>
