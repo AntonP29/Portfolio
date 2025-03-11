@@ -10,7 +10,26 @@
             --text-light: #ffffff;
             --accent-color: #4a4a4a;
             --acrylic-opacity: rgba(0, 0, 0, 0.3);
-            --border-hover: #333333;
+            --border-grey: #4a4848;
+            --green-acrylic: rgba(34, 139, 34, 0.3); /* Rich forest green for send button */
+        }
+
+        .project-card {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .project-card h3, .project-card p {
+            color: inherit;
+        }
+
+        .project-card:visited {
+            color: inherit;
+        }
+
+        .project-card:hover {
+            color: inherit;
+            background-color: #313131;
         }
 
         * {
@@ -19,14 +38,24 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: auto;
+        }
+
         body {
             font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-light);
             line-height: 1.6;
-            overflow-y: auto;
-            height: 100vh;
             margin: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        body.loading {
+            overflow-y: hidden;
+            position: fixed;
+            width: 100%;
         }
 
         .background--custom {
@@ -54,6 +83,9 @@
             position: relative;
             z-index: 1;
             min-height: 100vh;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: floatIn 0.5s ease-out forwards;
         }
 
         .acrylic {
@@ -62,8 +94,14 @@
             border-radius: 20px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             padding: 1rem;
-            border: none;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
             transition: border 0.3s ease;
+        }
+
+        .acrylic:hover {
+            border: 2px solid var(--border-grey);
         }
 
         header {
@@ -71,10 +109,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            background: var(--acrylic-opacity);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: none;
+            opacity: 0;
+            transform: translateY(20px);
             animation: floatIn 0.5s ease-out forwards;
         }
 
@@ -86,8 +122,10 @@
         nav a {
             color: var(--text-light);
             text-decoration: none;
-            margin-left: 1rem; /* Reduced spacing */
+            margin-left: 1rem;
             transition: color 0.3s ease;
+            animation: floatInText 0.5s ease-out 0.5s forwards;
+            opacity: 0;
         }
 
         nav a:hover {
@@ -99,24 +137,25 @@
             align-items: center;
             justify-content: space-between;
             min-height: 80vh;
-            animation: floatIn 0.5s ease-out 0.2s forwards;
             opacity: 0;
+            transform: translateY(20px);
+            animation: floatIn 0.5s ease-out forwards;
         }
 
         .hero-content {
             max-width: 600px;
-            background: var(--acrylic-opacity);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
             padding: 2rem;
-            border: none;
         }
 
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
             font-weight: bold;
-            animation: floatInText 0.5s ease-out 0.4s forwards;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.4),
+                0 0 20px rgba(255, 255, 255, 0.3),
+                0 0 30px rgba(255, 255, 255, 0.2);
+            animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
@@ -124,7 +163,7 @@
             font-size: 1.2rem;
             color: #aaa;
             margin-bottom: 2rem;
-            animation: floatInText 0.5s ease-out 0.4s forwards;
+            animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
@@ -138,34 +177,44 @@
             padding: 0.8rem 1.5rem;
             color: var(--text-light);
             text-decoration: none;
-            transition: background-color 0.3s ease;
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
-            border: none;
-            position: relative; /* Prevent movement */
-        }
-
-        .btn-primary {
-            background-color: #222222; /* Darker shade of grey */
-            color: var(--text-light);
+            position: relative;
+            transition: background-color 0.3s ease, border 0.3s ease;
+            animation: floatIn 0.5s ease-out forwards;
+            border: 2px solid transparent;
         }
 
         .btn:hover {
             background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid var(--border-grey);
+        }
+
+        .btn::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--acrylic-opacity);
+            border-radius: 13px;
+            z-index: -1;
         }
 
         .projects {
             margin-top: 4rem;
-            animation: floatIn 0.5s ease-out 0.4s forwards;
             opacity: 0;
+            transform: translateY(20px);
+            animation: floatIn 0.5s ease-out forwards;
         }
 
         .projects h2 {
             text-align: center;
             margin-bottom: 2rem;
             font-weight: bold;
-            animation: floatInText 0.5s ease-out 0.6s forwards;
+            animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
@@ -176,73 +225,60 @@
         }
 
         .project-card {
-            background: var(--acrylic-opacity);
-            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 1.5rem;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            border: none;
-            position: relative; /* Prevent movement */
+            background: var(--acrylic-opacity);
+            backdrop-filter: blur(20px);
+            animation: floatIn 0.5s ease-out forwards;
+            opacity: 0;
+            position: relative;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
         }
 
-        .project-card:nth-child(1) { animation: floatIn 0.5s ease-out 0.6s forwards; opacity: 0; }
-        .project-card:nth-child(2) { animation: floatIn 0.5s ease-out 0.8s forwards; opacity: 0; }
-        .project-card:nth-child(3) { animation: floatIn 0.5s ease-out 1s forwards; opacity: 0; }
+        .project-card:hover {
+            border: 2px solid var(--border-grey);
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.6s; }
+        .project-card:nth-child(2) { animation-delay: 0.8s; }
+        .project-card:nth-child(3) { animation-delay: 1s; }
 
         .project-card h3 {
             margin-bottom: 0.5rem;
             font-weight: bold;
-            animation: floatInText 0.5s ease-out 0.8s forwards;
+            animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
         .project-card p {
-            animation: floatInText 0.5s ease-out 0.8s forwards;
+            animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
-        }
-
-        .projects:hover .project-card,
-        .project-card:hover {
-            border: 2px solid var(--border-hover);
         }
 
         footer {
             text-align: center;
             padding: 2rem 0;
-            background: var(--acrylic-opacity);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            border: none;
             margin-top: 2rem;
-            animation: floatIn 0.5s ease-out 1.2s forwards;
             opacity: 0;
+            transform: translateY(20px);
+            animation: floatIn 0.5s ease-out forwards;
         }
 
         footer p {
-            animation: floatInText 0.5s ease-out 1.4s forwards;
+            animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
 
         @keyframes floatIn {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes floatInText {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 768px) {
@@ -259,9 +295,145 @@
                 justify-content: center;
             }
         }
+
+        @media (min-width: 768px) {
+            .container, .hero, header, .projects, footer {
+                animation: floatIn 0.5s ease-out forwards;
+            }
+        }
+
+        /* Popup styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            position: relative; /* For positioning the close button */
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 400px; /* Narrower width to match screenshot */
+            height: 450px; /* Adjusted height for better proportion */
+            background: var(--acrylic-opacity);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+            color: var(--text-light);
+            justify-content: space-between;
+        }
+
+        .popup:hover {
+            border: 2px solid var(--border-grey);
+        }
+
+        .popup h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .popup .close-btn:hover {
+            opacity: 1;
+        }
+
+        .popup .message-box {
+            width: 100%;
+            height: 200px; /* Adjusted to match screenshot proportions */
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: var(--text-light);
+            resize: none;
+            font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .popup .message-box::placeholder {
+            color: #aaa;
+            font-weight: bold; /* Bold placeholder text */
+        }
+
+        .popup .form-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem; /* Tighter spacing to match screenshot */
+        }
+
+        .popup .name-box, .popup .email-box {
+            width: 100%; /* Full width to match screenshot */
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: var(--text-light);
+            font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-align: center;
+        }
+
+        .popup .name-box::placeholder, .popup .email-box::placeholder {
+            color: #aaa;
+            font-weight: bold; /* Bold placeholder text */
+        }
+
+        .popup .send-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            background: var(--green-acrylic); /* Rich forest green */
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 2px solid transparent;
+            transition: background-color 0.3s ease, border 0.3s ease;
+            cursor: pointer;
+        }
+
+        .popup .send-btn:hover {
+            background-color: rgba(34, 139, 34, 0.5); /* Slightly darker forest green on hover */
+            border: 2px solid var(--border-grey);
+        }
+
+        .popup .send-btn::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--green-acrylic);
+            border-radius: 13px;
+            z-index: -1;
+        }
     </style>
 </head>
-<body>
+<body class="loading">
     <div class="background--custom">
         <canvas id="gradient-canvas"></canvas>
     </div>
@@ -271,17 +443,17 @@
             <nav>
                 <a href="#about">About</a>
                 <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#" class="contact-link">Contact</a>
             </nav>
         </header>
 
         <section class="hero">
             <div class="hero-content acrylic">
                 <h1>AntonP29</h1>
-                <p>Software Developer | Creative Problem Solver | Tech Enthusiast</p>
+                <p>HTML/CSS | Javascript | iOS Sideloading</p>
                 <div class="cta-buttons">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn">Contact Me</a>
+                    <a href="#projects" class="btn">View Projects</a>
+                    <a href="#" class="contact-link btn">Contact Me</a>
                 </div>
             </div>
         </section>
@@ -289,18 +461,24 @@
         <section id="projects" class="projects acrylic">
             <h2>My Projects</h2>
             <div class="project-grid">
-                <div class="project-card">
-                    <h3>Web App</h3>
-                    <p>A dynamic web application demonstrating modern front-end techniques.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Mobile Design</h3>
-                    <p>Innovative mobile interface with user-centric design principles.</p>
-                </div>
-                <div class="project-card">
-                    <h3>Data Visualization</h3>
-                    <p>Interactive dashboard showcasing complex data in an intuitive format.</p>
-                </div>
+                <a href="https://pirating.xyz" target="_blank" class="project-card">
+                    <div>
+                        <h3>Pirating.xyz UI</h3>
+                        <p>Made the "modern" UI for the pirating.xyz website</p>
+                    </div>
+                </a>
+                <a href="https://example.com/mobile-design" target="_blank" class="project-card">
+                    <div>
+                        <h3>Mobile Design</h3>
+                        <p>Innovative mobile interface with user-centric design principles.</p>
+                    </div>
+                </a>
+                <a href="https://example.com/data-visualization" target="_blank" class="project-card">
+                    <div>
+                        <h3>Data Visualization</h3>
+                        <p>Interactive dashboard showcasing complex data in an intuitive format.</p>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -309,27 +487,66 @@
         </footer>
     </div>
 
+    <!-- Popup Overlay and Form -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup">
+            <h2>Contacting AntonP29!</h2>
+            <button class="close-btn" id="close-btn">&times;</button>
+            <form action="https://formsubmit.co/anthonypolyakov2000@gmail.com" method="POST" id="contact-form">
+                <textarea class="message-box" name="message" placeholder="Start typing to message AntonP29..." required></textarea>
+                <div class="form-bottom">
+                    <input type="text" class="name-box" name="name" placeholder="Your Name" required>
+                    <input type="email" class="email-box" name="email" placeholder="Your Email" required>
+                    <button type="submit" class="send-btn">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Original gradient script remains unchanged
+        // Disable browser scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Force scroll to top immediately
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+
+        // Lock scroll during initialization
+        document.body.classList.add('loading');
+
+        // Prevent any scroll attempts
+        const lockScroll = (e) => {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        };
+        window.addEventListener('scroll', lockScroll);
+
+        // Pause animations initially
+        const animatedElements = document.querySelectorAll('.container, .hero, header, .projects, footer, .project-card, .hero h1, .hero p, nav a, .projects h2, .project-card h3, .project-card p, footer p');
+        animatedElements.forEach(el => {
+            el.style.animationPlayState = 'paused';
+        });
+
+        // Gradient script
         function normalizeColor(hexCode) {
             return [(hexCode >> 16 & 255) / 255, (hexCode >> 8 & 255) / 255, (255 & hexCode) / 255];
         }
-        ["SCREEN", "LINEAR_LIGHT"].reduce((hexCode, t, n) => Object.assign(hexCode, {
-            [t]: n
-        }), {});
 
         class MiniGl {
             constructor(canvas, width, height, debug = false) {
-                const _miniGl = this,
-                    debug_output = -1 !== document.location.search.toLowerCase().indexOf("debug=webgl");
-                _miniGl.canvas = canvas, _miniGl.gl = _miniGl.canvas.getContext("webgl", {
-                    antialias: true
-                }), _miniGl.meshes = [];
+                const _miniGl = this;
+                _miniGl.canvas = canvas;
+                _miniGl.gl = _miniGl.canvas.getContext("webgl", { antialias: true });
+                _miniGl.meshes = [];
                 const context = _miniGl.gl;
-                width && height && this.setSize(width, height), _miniGl.lastDebugMsg, _miniGl.debug = debug && debug_output ? function(e) {
-                    const t = new Date;
-                    t - _miniGl.lastDebugMsg > 1e3 && console.log("---"), console.log(t.toLocaleTimeString() + Array(Math.max(0, 32 - e.length)).join(" ") + e + ": ", ...Array.from(arguments).slice(1)), _miniGl.lastDebugMsg = t;
-                } : () => {}, Object.defineProperties(_miniGl, {
+                width && height && this.setSize(width, height);
+                _miniGl.debug = debug ? console.log : () => {};
+                Object.defineProperties(_miniGl, {
                     Material: {
                         enumerable: false,
                         value: class {
@@ -337,416 +554,359 @@
                                 const material = this;
                                 function getShaderByType(type, source) {
                                     const shader = context.createShader(type);
-                                    return context.shaderSource(shader, source), context.compileShader(shader), context.getShaderParameter(shader, context.COMPILE_STATUS) || console.error(context.getShaderInfoLog(shader)), _miniGl.debug("Material.compileShaderSource", {
-                                        source: source
-                                    }), shader;
+                                    context.shaderSource(shader, source);
+                                    context.compileShader(shader);
+                                    return shader;
                                 }
                                 function getUniformVariableDeclarations(uniforms, type) {
                                     return Object.entries(uniforms).map(([uniform, value]) => value.getDeclaration(uniform, type)).join("\n");
                                 }
-                                material.uniforms = uniforms, material.uniformInstances = [];
-
+                                material.uniforms = uniforms;
+                                material.uniformInstances = [];
                                 const prefix = "\n              precision highp float;\n            ";
-                                material.vertexSource = `\n              ${prefix}\n              attribute vec4 position;\n              attribute vec2 uv;\n              attribute vec2 uvNorm;\n              ${getUniformVariableDeclarations(_miniGl.commonUniforms,"vertex")}\n              ${getUniformVariableDeclarations(uniforms,"vertex")}\n              ${vertexShaders}\n            `,
-                                material.Source = `\n              ${prefix}\n              ${getUniformVariableDeclarations(_miniGl.commonUniforms,"fragment")}\n              ${getUniformVariableDeclarations(uniforms,"fragment")}\n              ${fragments}\n            `,
-                                material.vertexShader = getShaderByType(context.VERTEX_SHADER, material.vertexSource),
-                                material.fragmentShader = getShaderByType(context.FRAGMENT_SHADER, material.Source),
-                                material.program = context.createProgram(),
-                                context.attachShader(material.program, material.vertexShader),
-                                context.attachShader(material.program, material.fragmentShader),
-                                context.linkProgram(material.program),
-                                context.getProgramParameter(material.program, context.LINK_STATUS) || console.error(context.getProgramInfoLog(material.program)),
-                                context.useProgram(material.program),
-                                material.attachUniforms(void 0, _miniGl.commonUniforms),
+                                material.vertexSource = `\n              ${prefix}\n              attribute vec4 position;\n              attribute vec2 uv;\n              attribute vec2 uvNorm;\n              ${getUniformVariableDeclarations(_miniGl.commonUniforms, "vertex")}\n              ${getUniformVariableDeclarations(uniforms, "vertex")}\n              ${vertexShaders}\n            `;
+                                material.Source = `\n              ${prefix}\n              ${getUniformVariableDeclarations(_miniGl.commonUniforms, "fragment")}\n              ${getUniformVariableDeclarations(uniforms, "fragment")}\n              ${fragments}\n            `;
+                                material.vertexShader = getShaderByType(context.VERTEX_SHADER, material.vertexSource);
+                                material.fragmentShader = getShaderByType(context.FRAGMENT_SHADER, material.Source);
+                                material.program = context.createProgram();
+                                context.attachShader(material.program, material.vertexShader);
+                                context.attachShader(material.program, material.fragmentShader);
+                                context.linkProgram(material.program);
+                                context.useProgram(material.program);
+                                material.attachUniforms(void 0, _miniGl.commonUniforms);
                                 material.attachUniforms(void 0, material.uniforms);
                             }
                             attachUniforms(name, uniforms) {
                                 const material = this;
-                                void 0 === name ? Object.entries(uniforms).forEach(([name, uniform]) => {
-                                    material.attachUniforms(name, uniform);
-                                }) : "array" == uniforms.type ? uniforms.value.forEach((uniform, i) => material.attachUniforms(`${name}[${i}]`, uniform)) : "struct" == uniforms.type ? Object.entries(uniforms.value).forEach(([uniform, i]) => material.attachUniforms(`${name}.${uniform}`, i)) : (_miniGl.debug("Material.attachUniforms", {
-                                    name: name,
-                                    uniform: uniforms
-                                }), material.uniformInstances.push({
-                                    uniform: uniforms,
-                                    location: context.getUniformLocation(material.program, name)
-                                }));
+                                if (!name) {
+                                    Object.entries(uniforms).forEach(([name, uniform]) => material.attachUniforms(name, uniform));
+                                } else if (uniforms.type === "array") {
+                                    uniforms.value.forEach((uniform, i) => material.attachUniforms(`${name}[${i}]`, uniform));
+                                } else if (uniforms.type === "struct") {
+                                    Object.entries(uniforms.value).forEach(([uniform, i]) => material.attachUniforms(`${name}.${uniform}`, i));
+                                } else {
+                                    material.uniformInstances.push({
+                                        uniform: uniforms,
+                                        location: context.getUniformLocation(material.program, name)
+                                    });
+                                }
                             }
                         }
                     },
                     Uniform: {
-                        enumerable: !1,
+                        enumerable: false,
                         value: class {
                             constructor(e) {
-                                this.type = "float", Object.assign(this, e);
-                                this.typeFn = {
-                                    float: "1f",
-                                    int: "1i",
-                                    vec2: "2fv",
-                                    vec3: "3fv",
-                                    vec4: "4fv",
-                                    mat4: "Matrix4fv"
-                                } [this.type] || "1f", this.update();
+                                this.type = "float";
+                                Object.assign(this, e);
+                                this.typeFn = { float: "1f", int: "1i", vec2: "2fv", vec3: "3fv", vec4: "4fv", mat4: "Matrix4fv" }[this.type] || "1f";
+                                this.update();
                             }
                             update(value) {
-                                void 0 !== this.value && context[`uniform${this.typeFn}`](value, 0 === this.typeFn.indexOf("Matrix") ? this.transpose : this.value, 0 === this.typeFn.indexOf("Matrix") ? this.value : null);
+                                if (this.value !== undefined) {
+                                    context[`uniform${this.typeFn}`](value, this.typeFn.startsWith("Matrix") ? this.transpose : this.value, this.typeFn.startsWith("Matrix") ? this.value : null);
+                                }
                             }
                             getDeclaration(name, type, length) {
                                 const uniform = this;
                                 if (uniform.excludeFrom !== type) {
-                                    if ("array" === uniform.type) return uniform.value[0].getDeclaration(name, type, uniform.value.length) + `\nconst int ${name}_length = ${uniform.value.length};`;
-                                    if ("struct" === uniform.type) {
+                                    if (uniform.type === "array") return uniform.value[0].getDeclaration(name, type, uniform.value.length) + `\nconst int ${name}_length = ${uniform.value.length};`;
+                                    if (uniform.type === "struct") {
                                         let name_no_prefix = name.replace("u_", "");
-                                        return name_no_prefix = name_no_prefix.charAt(0).toUpperCase() + name_no_prefix.slice(1), `uniform struct ${name_no_prefix} {\n` + Object.entries(uniform.value).map(([name, uniform]) => uniform.getDeclaration(name, type).replace(/^uniform/, "")).join("") + `\n} ${name}${length>0?`[${length}]`:""};`;
+                                        name_no_prefix = name_no_prefix.charAt(0).toUpperCase() + name_no_prefix.slice(1);
+                                        return `uniform struct ${name_no_prefix} {\n` + Object.entries(uniform.value).map(([name, uniform]) => uniform.getDeclaration(name, type).replace(/^uniform/, "")).join("") + `\n} ${name}${length > 0 ? `[${length}]` : ""};`;
                                     }
-                                    return `uniform ${uniform.type} ${name}${length>0?`[${length}]`:""};`;
+                                    return `uniform ${uniform.type} ${name}${length > 0 ? `[${length}]` : ""};`;
                                 }
                             }
                         }
                     },
                     PlaneGeometry: {
-                        enumerable: !1,
+                        enumerable: false,
                         value: class {
                             constructor(width, height, n, i, orientation) {
-                                context.createBuffer(), this.attributes = {
-                                    position: new _miniGl.Attribute({
-                                        target: context.ARRAY_BUFFER,
-                                        size: 3
-                                    }),
-                                    uv: new _miniGl.Attribute({
-                                        target: context.ARRAY_BUFFER,
-                                        size: 2
-                                    }),
-                                    uvNorm: new _miniGl.Attribute({
-                                        target: context.ARRAY_BUFFER,
-                                        size: 2
-                                    }),
-                                    index: new _miniGl.Attribute({
-                                        target: context.ELEMENT_ARRAY_BUFFER,
-                                        size: 3,
-                                        type: context.UNSIGNED_SHORT
-                                    })
-                                }, this.setTopology(n, i), this.setSize(width, height, orientation);
+                                context.createBuffer();
+                                this.attributes = {
+                                    position: new _miniGl.Attribute({ target: context.ARRAY_BUFFER, size: 3 }),
+                                    uv: new _miniGl.Attribute({ target: context.ARRAY_BUFFER, size: 2 }),
+                                    uvNorm: new _miniGl.Attribute({ target: context.ARRAY_BUFFER, size: 2 }),
+                                    index: new _miniGl.Attribute({ target: context.ELEMENT_ARRAY_BUFFER, size: 3, type: context.UNSIGNED_SHORT })
+                                };
+                                this.setTopology(n, i);
+                                this.setSize(width, height, orientation);
                             }
                             setTopology(e = 1, t = 1) {
                                 const n = this;
-                                n.xSegCount = e, n.ySegCount = t, n.vertexCount = (n.xSegCount + 1) * (n.ySegCount + 1), n.quadCount = n.xSegCount * n.ySegCount * 2, n.attributes.uv.values = new Float32Array(2 * n.vertexCount), n.attributes.uvNorm.values = new Float32Array(2 * n.vertexCount), n.attributes.index.values = new Uint16Array(3 * n.quadCount);
+                                n.xSegCount = e;
+                                n.ySegCount = t;
+                                n.vertexCount = (n.xSegCount + 1) * (n.ySegCount + 1);
+                                n.quadCount = n.xSegCount * n.ySegCount * 2;
+                                n.attributes.uv.values = new Float32Array(2 * n.vertexCount);
+                                n.attributes.uvNorm.values = new Float32Array(2 * n.vertexCount);
+                                n.attributes.index.values = new Uint16Array(3 * n.quadCount);
                                 for (let e = 0; e <= n.ySegCount; e++)
                                     for (let t = 0; t <= n.xSegCount; t++) {
                                         const i = e * (n.xSegCount + 1) + t;
-                                        if (n.attributes.uv.values[2 * i] = t / n.xSegCount, n.attributes.uv.values[2 * i + 1] = 1 - e / n.ySegCount, n.attributes.uvNorm.values[2 * i] = t / n.xSegCount * 2 - 1, n.attributes.uvNorm.values[2 * i + 1] = 1 - e / n.ySegCount * 2, t < n.xSegCount && e < n.ySegCount) {
+                                        n.attributes.uv.values[2 * i] = t / n.xSegCount;
+                                        n.attributes.uv.values[2 * i + 1] = 1 - e / n.ySegCount;
+                                        n.attributes.uvNorm.values[2 * i] = t / n.xSegCount * 2 - 1;
+                                        n.attributes.uvNorm.values[2 * i + 1] = 1 - e / n.ySegCount * 2;
+                                        if (t < n.xSegCount && e < n.ySegCount) {
                                             const s = e * n.xSegCount + t;
-                                            n.attributes.index.values[6 * s] = i, n.attributes.index.values[6 * s + 1] = i + 1 + n.xSegCount, n.attributes.index.values[6 * s + 2] = i + 1, n.attributes.index.values[6 * s + 3] = i + 1, n.attributes.index.values[6 * s + 4] = i + 1 + n.xSegCount, n.attributes.index.values[6 * s + 5] = i + 2 + n.xSegCount;
+                                            n.attributes.index.values[6 * s] = i;
+                                            n.attributes.index.values[6 * s + 1] = i + 1 + n.xSegCount;
+                                            n.attributes.index.values[6 * s + 2] = i + 1;
+                                            n.attributes.index.values[6 * s + 3] = i + 1;
+                                            n.attributes.index.values[6 * s + 4] = i + 1 + n.xSegCount;
+                                            n.attributes.index.values[6 * s + 5] = i + 2 + n.xSegCount;
                                         }
                                     }
-                                n.attributes.uv.update(), n.attributes.uvNorm.update(), n.attributes.index.update(), _miniGl.debug("Geometry.setTopology", {
-                                    uv: n.attributes.uv,
-                                    uvNorm: n.attributes.uvNorm,
-                                    index: n.attributes.index
-                                });
+                                n.attributes.uv.update();
+                                n.attributes.uvNorm.update();
+                                n.attributes.index.update();
                             }
                             setSize(width = 1, height = 1, orientation = "xz") {
                                 const geometry = this;
-                                geometry.width = width, geometry.height = height, geometry.orientation = orientation, geometry.attributes.position.values && geometry.attributes.position.values.length === 3 * geometry.vertexCount || (geometry.attributes.position.values = new Float32Array(3 * geometry.vertexCount));
+                                geometry.width = width;
+                                geometry.height = height;
+                                geometry.orientation = orientation;
+                                if (!geometry.attributes.position.values || geometry.attributes.position.values.length !== 3 * geometry.vertexCount) {
+                                    geometry.attributes.position.values = new Float32Array(3 * geometry.vertexCount);
+                                }
                                 const o = width / -2, r = height / -2, segment_width = width / geometry.xSegCount, segment_height = height / geometry.ySegCount;
                                 for (let yIndex = 0; yIndex <= geometry.ySegCount; yIndex++) {
                                     const t = r + yIndex * segment_height;
                                     for (let xIndex = 0; xIndex <= geometry.xSegCount; xIndex++) {
                                         const r = o + xIndex * segment_width, l = yIndex * (geometry.xSegCount + 1) + xIndex;
-                                        geometry.attributes.position.values[3 * l + "xyz".indexOf(orientation[0])] = r, geometry.attributes.position.values[3 * l + "xyz".indexOf(orientation[1])] = -t;
+                                        geometry.attributes.position.values[3 * l + "xyz".indexOf(orientation[0])] = r;
+                                        geometry.attributes.position.values[3 * l + "xyz".indexOf(orientation[1])] = -t;
                                     }
                                 }
-                                geometry.attributes.position.update(), _miniGl.debug("Geometry.setSize", {
-                                    position: geometry.attributes.position
-                                });
+                                geometry.attributes.position.update();
                             }
                         }
                     },
                     Mesh: {
-                        enumerable: !1,
+                        enumerable: false,
                         value: class {
                             constructor(geometry, material) {
                                 const mesh = this;
-                                mesh.geometry = geometry, mesh.material = material, mesh.wireframe = !1, mesh.attributeInstances = [], Object.entries(mesh.geometry.attributes).forEach(([e, attribute]) => {
+                                mesh.geometry = geometry;
+                                mesh.material = material;
+                                mesh.wireframe = false;
+                                mesh.attributeInstances = [];
+                                Object.entries(mesh.geometry.attributes).forEach(([e, attribute]) => {
                                     mesh.attributeInstances.push({
                                         attribute: attribute,
                                         location: attribute.attach(e, mesh.material.program)
                                     });
-                                }), _miniGl.meshes.push(mesh), _miniGl.debug("Mesh.constructor", {
-                                    mesh: mesh
                                 });
+                                _miniGl.meshes.push(mesh);
                             }
                             draw() {
-                                context.useProgram(this.material.program), this.material.uniformInstances.forEach(({
-                                    uniform: e,
-                                    location: t
-                                }) => e.update(t)), this.attributeInstances.forEach(({
-                                    attribute: e,
-                                    location: t
-                                }) => e.use(t)), context.drawElements(this.wireframe ? context.LINES : context.TRIANGLES, this.geometry.attributes.index.values.length, context.UNSIGNED_SHORT, 0);
+                                context.useProgram(this.material.program);
+                                this.material.uniformInstances.forEach(({ uniform: e, location: t }) => e.update(t));
+                                this.attributeInstances.forEach(({ attribute: e, location: t }) => e.use(t));
+                                context.drawElements(this.wireframe ? context.LINES : context.TRIANGLES, this.geometry.attributes.index.values.length, context.UNSIGNED_SHORT, 0);
                             }
                             remove() {
-                                _miniGl.meshes = _miniGl.meshes.filter(e => e != this);
+                                _miniGl.meshes = _miniGl.meshes.filter(e => e !== this);
                             }
                         }
                     },
                     Attribute: {
-                        enumerable: !1,
+                        enumerable: false,
                         value: class {
                             constructor(e) {
-                                this.type = context.FLOAT, this.normalized = !1, this.buffer = context.createBuffer(), Object.assign(this, e), this.update();
+                                this.type = context.FLOAT;
+                                this.normalized = false;
+                                this.buffer = context.createBuffer();
+                                Object.assign(this, e);
+                                this.update();
                             }
                             update() {
-                                void 0 !== this.values && (context.bindBuffer(this.target, this.buffer), context.bufferData(this.target, this.values, context.STATIC_DRAW));
+                                if (this.values !== undefined) {
+                                    context.bindBuffer(this.target, this.buffer);
+                                    context.bufferData(this.target, this.values, context.STATIC_DRAW);
+                                }
                             }
                             attach(e, t) {
                                 const n = context.getAttribLocation(t, e);
-                                return this.target === context.ARRAY_BUFFER && (context.enableVertexAttribArray(n), context.vertexAttribPointer(n, this.size, this.type, this.normalized, 0, 0)), n;
+                                if (this.target === context.ARRAY_BUFFER) {
+                                    context.enableVertexAttribArray(n);
+                                    context.vertexAttribPointer(n, this.size, this.type, this.normalized, 0, 0);
+                                }
+                                return n;
                             }
                             use(e) {
-                                context.bindBuffer(this.target, this.buffer), this.target === context.ARRAY_BUFFER && (context.enableVertexAttribArray(e), context.vertexAttribPointer(e, this.size, this.type, this.normalized, 0, 0));
+                                context.bindBuffer(this.target, this.buffer);
+                                if (this.target === context.ARRAY_BUFFER) {
+                                    context.enableVertexAttribArray(e);
+                                    context.vertexAttribPointer(e, this.size, this.type, this.normalized, 0, 0);
+                                }
                             }
                         }
                     }
                 });
                 const a = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
                 _miniGl.commonUniforms = {
-                    projectionMatrix: new _miniGl.Uniform({
-                        type: "mat4",
-                        value: a
-                    }),
-                    modelViewMatrix: new _miniGl.Uniform({
-                        type: "mat4",
-                        value: a
-                    }),
-                    resolution: new _miniGl.Uniform({
-                        type: "vec2",
-                        value: [1, 1]
-                    }),
-                    aspectRatio: new _miniGl.Uniform({
-                        type: "float",
-                        value: 1
-                    })
+                    projectionMatrix: new _miniGl.Uniform({ type: "mat4", value: a }),
+                    modelViewMatrix: new _miniGl.Uniform({ type: "mat4", value: a }),
+                    resolution: new _miniGl.Uniform({ type: "vec2", value: [1, 1] }),
+                    aspectRatio: new _miniGl.Uniform({ type: "float", value: 1 })
                 };
             }
             setSize(e = 640, t = 480) {
-                this.width = e, this.height = t, this.canvas.width = e, this.canvas.height = t, this.gl.viewport(0, 0, e, t), this.commonUniforms.resolution.value = [e, t], this.commonUniforms.aspectRatio.value = e / t, this.debug("MiniGL.setSize", {
-                    width: e,
-                    height: t
-                });
+                this.width = e;
+                this.height = t;
+                this.canvas.width = e;
+                this.canvas.height = t;
+                this.gl.viewport(0, 0, e, t);
+                this.commonUniforms.resolution.value = [e, t];
+                this.commonUniforms.aspectRatio.value = e / t;
             }
             setOrthographicCamera(e = 0, t = 0, n = 0, i = -2e3, s = 2e3) {
-                this.commonUniforms.projectionMatrix.value = [2 / this.width, 0, 0, 0, 0, 2 / this.height, 0, 0, 0, 0, 2 / (i - s), 0, e, t, n, 1], this.debug("setOrthographicCamera", this.commonUniforms.projectionMatrix.value);
+                this.commonUniforms.projectionMatrix.value = [2 / this.width, 0, 0, 0, 0, 2 / this.height, 0, 0, 0, 0, 2 / (i - s), 0, e, t, n, 1];
             }
             render() {
-                this.gl.clearColor(0, 0, 0, 0), this.gl.clearDepth(1), this.meshes.forEach(e => e.draw());
+                this.gl.clearColor(0, 0, 0, 0);
+                this.gl.clearDepth(1);
+                this.meshes.forEach(e => e.draw());
             }
-        }
-
-        function e(object, propertyName, val) {
-            return propertyName in object ? Object.defineProperty(object, propertyName, {
-                value: val,
-                enumerable: !0,
-                configurable: !0,
-                writable: !0
-            }) : object[propertyName] = val, object;
         }
 
         class Gradient {
-            constructor(...t) {
-                e(this, "el", void 0), e(this, "cssVarRetries", 0), e(this, "maxCssVarRetries", 200), e(this, "angle", 0), e(this, "isLoadedClass", !1), e(this, "isScrolling", !1), e(this, "scrollingTimeout", void 0), e(this, "scrollingRefreshDelay", 200), e(this, "isIntersecting", !1), e(this, "shaderFiles", void 0), e(this, "vertexShader", void 0), e(this, "sectionColors", void 0), e(this, "computedCanvasStyle", void 0), e(this, "conf", void 0), e(this, "uniforms", void 0), e(this, "t", 1253106), e(this, "last", 0), e(this, "width", void 0), e(this, "minWidth", 1111), e(this, "height", 600), e(this, "xSegCount", void 0), e(this, "ySegCount", void 0), e(this, "mesh", void 0), e(this, "material", void 0), e(this, "geometry", void 0), e(this, "minigl", void 0), e(this, "scrollObserver", void 0), e(this, "amp", 320), e(this, "seed", 5), e(this, "freqX", 14e-5), e(this, "freqY", 29e-5), e(this, "freqDelta", 1e-5), e(this, "activeColors", [1, 1, 1, 1]), e(this, "isMetaKey", !1), e(this, "isGradientLegendVisible", !1), e(this, "isMouseDown", !1), e(this, "handleScroll", () => {
-                    clearTimeout(this.scrollingTimeout), this.scrollingTimeout = setTimeout(this.handleScrollEnd, this.scrollingRefreshDelay), this.isGradientLegendVisible && this.hideGradientLegend(), this.conf.playing && (this.isScrolling = !0, this.pause());
-                }), e(this, "handleScrollEnd", () => {
-                    this.isScrolling = !1, this.isIntersecting && this.play();
-                }), e(this, "resize", () => {
-                    this.width = window.innerWidth, this.minigl.setSize(this.width, this.height), this.minigl.setOrthographicCamera(), this.xSegCount = Math.ceil(this.width * this.conf.density[0]), this.ySegCount = Math.ceil(this.height * this.conf.density[1]), this.mesh.geometry.setTopology(this.xSegCount, this.ySegCount), this.mesh.geometry.setSize(this.width, this.height), this.mesh.material.uniforms.u_shadow_power.value = this.width < 600 ? 5 : 6;
-                }), e(this, "handleMouseDown", e => {
-                    this.isGradientLegendVisible && (this.isMetaKey = e.metaKey, this.isMouseDown = !0, !1 === this.conf.playing && requestAnimationFrame(this.animate));
-                }), e(this, "handleMouseUp", () => {
-                    this.isMouseDown = !1;
-                }), e(this, "animate", e => {
-                    if (!this.shouldSkipFrame(e) || this.isMouseDown) {
-                        if (this.t += Math.min(e - this.last, 1e3 / 15), this.last = e, this.isMouseDown) {
-                            let e = 160;
-                            this.isMetaKey && (e = -160), this.t += e;
-                        }
-                        this.mesh.material.uniforms.u_time.value = this.t, this.minigl.render();
-                    }
-                    if (0 !== this.last && this.isStatic) return this.minigl.render(), void this.disconnect();
-                    (this.conf.playing || this.isMouseDown) && requestAnimationFrame(this.animate);
-                }), e(this, "addIsLoadedClass", () => {
-                    !this.isLoadedClass && (this.isLoadedClass = !0, this.el.classList.add("isLoaded"), setTimeout(() => {
-                        this.el.parentElement.classList.add("isLoaded");
-                    }, 3e3));
-                }), e(this, "pause", () => {
-                    this.conf.playing = false;
-                }), e(this, "play", () => {
-                    requestAnimationFrame(this.animate), this.conf.playing = true;
-                }), e(this, "initGradient", (selector) => {
-                    this.el = document.querySelector(selector);
-                    this.connect();
-                    return this;
+            constructor() {
+                this.el = null;
+                this.cssVarRetries = 0;
+                this.maxCssVarRetries = 200;
+                this.angle = 0;
+                this.isLoadedClass = false;
+                this.isScrolling = false;
+                this.scrollingTimeout = undefined;
+                this.scrollingRefreshDelay = 200;
+                this.isIntersecting = false;
+                this.shaderFiles = {
+                    vertex: "varying vec3 v_color;\n\nvoid main() {\n  float time = u_time * u_global.noiseSpeed;\n\n  vec2 noiseCoord = resolution * uvNorm * u_global.noiseFreq;\n\n  vec2 st = 1. - uvNorm.xy;\n\n  float tilt = resolution.y / 2.0 * uvNorm.y;\n\n  float incline = resolution.x * uvNorm.x / 2.0 * u_vertDeform.incline;\n\n  float offset = resolution.x / 2.0 * u_vertDeform.incline * mix(u_vertDeform.offsetBottom, u_vertDeform.offsetTop, uv.y);\n\n  float noise = snoise(vec3(\n    noiseCoord.x * u_vertDeform.noiseFreq.x + time * u_vertDeform.noiseFlow,\n    noiseCoord.y * u_vertDeform.noiseFreq.y,\n    time * u_vertDeform.noiseSpeed + u_vertDeform.noiseSeed\n  )) * u_vertDeform.noiseAmp;\n\n  noise *= 1.0 - pow(abs(uvNorm.y), 2.0);\n\n  noise = max(0.0, noise);\n\n  vec3 pos = vec3(\n    position.x,\n    position.y + tilt + incline + noise - offset,\n    position.z\n  );\n\n  if (u_active_colors[0] == 1.) {\n    v_color = u_baseColor;\n  }\n\n  for (int i = 0; i < u_waveLayers_length; i++) {\n    if (u_active_colors[i + 1] == 1.) {\n      WaveLayers layer = u_waveLayers[i];\n\n      float noise = smoothstep(\n        layer.noiseFloor,\n        layer.noiseCeil,\n        snoise(vec3(\n          noiseCoord.x * layer.noiseFreq.x + time * layer.noiseFlow,\n          noiseCoord.y * layer.noiseFreq.y,\n          time * layer.noiseSpeed + layer.noiseSeed\n        )) / 2.0 + 0.5\n      );\n\n      v_color = blendNormal(v_color, layer.color, pow(noise, 4.));\n    }\n  }\n\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n}",
+                    noise: "vec3 mod289(vec3 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x) {\n    return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nfloat snoise(vec3 v)\n{\n  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n\n  vec3 i  = floor(v + dot(v, C.yyy) );\n  vec3 x0 =   v - i + dot(i, C.xxx) ;\n\n  vec3 g = step(x0.yzx, x0.xyz);\n  vec3 l = 1.0 - g;\n  vec3 i1 = min( g.xyz, l.zxy );\n  vec3 i2 = max( g.xyz, l.zxy );\n\n  vec3 x1 = x0 - i1 + C.xxx;\n  vec3 x2 = x0 - i2 + C.yyy;\n  vec3 x3 = x0 - D.yyy;\n\n  i = mod289(i);\n  vec4 p = permute( permute( permute(\n            i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n          + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n          + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n\n  float n_ = 0.142857142857;\n  vec3  ns = n_ * D.wyz - D.xzx;\n\n  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);\n\n  vec4 x_ = floor(j * ns.z);\n  vec4 y_ = floor(j - 7.0 * x_ );\n\n  vec4 x = x_ *ns.x + ns.yyyy;\n  vec4 y = y_ *ns.x + ns.yyyy;\n  vec4 h = 1.0 - abs(x) - abs(y);\n\n  vec4 b0 = vec4( x.xy, y.xy );\n  vec4 b1 = vec4( x.zw, y.zw );\n\n  vec4 s0 = floor(b0)*2.0 + 1.0;\n  vec4 s1 = floor(b1)*2.0 + 1.0;\n  vec4 sh = -step(h, vec4(0.0));\n\n  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n\n  vec3 p0 = vec3(a0.xy,h.x);\n  vec3 p1 = vec3(a0.zw,h.y);\n  vec3 p2 = vec3(a1.xy,h.z);\n  vec3 p3 = vec3(a1.zw,h.w);\n\n  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n  p0 *= norm.x;\n  p1 *= norm.y;\n  p2 *= norm.z;\n  p3 *= norm.w;\n\n  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n  m = m * m;\n  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n                                dot(p2,x2), dot(p3,x3) ) );\n}",
+                    blend: "vec3 blendNormal(vec3 base, vec3 blend) {\n\treturn blend;\n}\n\nvec3 blendNormal(vec3 base, vec3 blend, float opacity) {\n\treturn (blendNormal(base, blend) * opacity + base * (1.0 - opacity));\n}",
+                    fragment: "varying vec3 v_color;\n\nvoid main() {\n  vec3 color = v_color;\n  if (u_darken_top == 1.0) {\n    vec2 st = gl_FragCoord.xy/resolution.xy;\n    color.g -= pow(st.y + sin(-12.0) * st.x, u_shadow_power) * 0.4;\n  }\n  gl_FragColor = vec4(color, 1.0);\n}"
+                };
+                this.conf = { presetName: "", wireframe: false, density: [.06, .16], zoom: 1, rotation: 0, playing: true };
+                this.t = 1253106;
+                this.last = 0;
+                this.width = undefined;
+                this.minWidth = 1111;
+                this.height = 600;
+                this.xSegCount = undefined;
+                this.ySegCount = undefined;
+                this.mesh = undefined;
+                this.material = undefined;
+                this.geometry = undefined;
+                this.minigl = undefined;
+                this.amp = 320;
+                this.seed = 5;
+                this.freqX = 14e-5;
+                this.freqY = 29e-5;
+                this.freqDelta = 1e-5;
+                this.activeColors = [1, 1, 1, 1];
+                this.isMouseDown = false;
+            }
+
+            initGradient(selector) {
+                this.el = document.querySelector(selector);
+                this.connect();
+                return this;
+            }
+
+            connect() {
+                this.minigl = new MiniGl(this.el, null, null, true);
+                requestAnimationFrame(() => {
+                    this.el && (this.computedCanvasStyle = getComputedStyle(this.el), this.waitForCssVars());
                 });
             }
-            async connect() {
-                this.shaderFiles = {
-                    vertex: "varying vec3 v_color;\n\nvoid main() {\n  float time = u_time * u_global.noiseSpeed;\n\n  vec2 noiseCoord = resolution * uvNorm * u_global.noiseFreq;\n\n  vec2 st = 1. - uvNorm.xy;\n\n  //\n  // Tilting the plane\n  //\n\n  // Front-to-back tilt\n  float tilt = resolution.y / 2.0 * uvNorm.y;\n\n  // Left-to-right angle\n  float incline = resolution.x * uvNorm.x / 2.0 * u_vertDeform.incline;\n\n  // Up-down shift to offset incline\n  float offset = resolution.x / 2.0 * u_vertDeform.incline * mix(u_vertDeform.offsetBottom, u_vertDeform.offsetTop, uv.y);\n\n  //\n  // Vertex noise\n  //\n\n  float noise = snoise(vec3(\n    noiseCoord.x * u_vertDeform.noiseFreq.x + time * u_vertDeform.noiseFlow,\n    noiseCoord.y * u_vertDeform.noiseFreq.y,\n    time * u_vertDeform.noiseSpeed + u_vertDeform.noiseSeed\n  )) * u_vertDeform.noiseAmp;\n\n  // Fade noise to zero at edges\n  noise *= 1.0 - pow(abs(uvNorm.y), 2.0);\n\n  // Clamp to 0\n  noise = max(0.0, noise);\n\n  vec3 pos = vec3(\n    position.x,\n    position.y + tilt + incline + noise - offset,\n    position.z\n  );\n\n  //\n  // Vertex color, to be passed to fragment shader\n  //\n\n  if (u_active_colors[0] == 1.) {\n    v_color = u_baseColor;\n  }\n\n  for (int i = 0; i < u_waveLayers_length; i++) {\n    if (u_active_colors[i + 1] == 1.) {\n      WaveLayers layer = u_waveLayers[i];\n\n      float noise = smoothstep(\n        layer.noiseFloor,\n        layer.noiseCeil,\n        snoise(vec3(\n          noiseCoord.x * layer.noiseFreq.x + time * layer.noiseFlow,\n          noiseCoord.y * layer.noiseFreq.y,\n          time * layer.noiseSpeed + layer.noiseSeed\n        )) / 2.0 + 0.5\n      );\n\n      v_color = blendNormal(v_color, layer.color, pow(noise, 4.));\n    }\n  }\n\n  //\n  // Finish\n  //\n\n  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);\n}",
-                    noise: "//\n// Description : Array and textureless GLSL 2D/3D/4D simplex\n//               noise functions.\n//      Author : Ian McEwan, Ashima Arts.\n//  Maintainer : stegu\n//     Lastmod : 20110822 (ijm)\n//     License : Copyright (C) 2011 Ashima Arts. All rights reserved.\n//               Distributed under the MIT License. See LICENSE file.\n//               https://github.com/ashima/webgl-noise\n//               https://github.com/stegu/webgl-noise\n//\n\nvec3 mod289(vec3 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x) {\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x) {\n    return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nfloat snoise(vec3 v)\n{\n  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;\n  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);\n\n// First corner\n  vec3 i  = floor(v + dot(v, C.yyy) );\n  vec3 x0 =   v - i + dot(i, C.xxx) ;\n\n// Other corners\n  vec3 g = step(x0.yzx, x0.xyz);\n  vec3 l = 1.0 - g;\n  vec3 i1 = min( g.xyz, l.zxy );\n  vec3 i2 = max( g.xyz, l.zxy );\n\n  //   x0 = x0 - 0.0 + 0.0 * C.xxx;\n  //   x1 = x0 - i1  + 1.0 * C.xxx;\n  //   x2 = x0 - i2  + 2.0 * C.xxx;\n  //   x3 = x0 - 1.0 + 3.0 * C.xxx;\n  vec3 x1 = x0 - i1 + C.xxx;\n  vec3 x2 = x0 - i2 + C.yyy; // 2.0*C.x = 1/3 = C.y\n  vec3 x3 = x0 - D.yyy;      // -1.0+3.0*C.x = -0.5 = -D.y\n\n// Permutations\n  i = mod289(i);\n  vec4 p = permute( permute( permute(\n            i.z + vec4(0.0, i1.z, i2.z, 1.0 ))\n          + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))\n          + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));\n\n// Gradients: 7x7 points over a square, mapped onto an octahedron.\n// The ring size 17*17 = 289 is close to a multiple of 49 (49*6 = 294)\n  float n_ = 0.142857142857; // 1.0/7.0\n  vec3  ns = n_ * D.wyz - D.xzx;\n\n  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);  //  mod(p,7*7)\n\n  vec4 x_ = floor(j * ns.z);\n  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)\n\n  vec4 x = x_ *ns.x + ns.yyyy;\n  vec4 y = y_ *ns.x + ns.yyyy;\n  vec4 h = 1.0 - abs(x) - abs(y);\n\n  vec4 b0 = vec4( x.xy, y.xy );\n  vec4 b1 = vec4( x.zw, y.zw );\n\n  //vec4 s0 = vec4(lessThan(b0,0.0))*2.0 - 1.0;\n  //vec4 s1 = vec4(lessThan(b1,0.0))*2.0 - 1.0;\n  vec4 s0 = floor(b0)*2.0 + 1.0;\n  vec4 s1 = floor(b1)*2.0 + 1.0;\n  vec4 sh = -step(h, vec4(0.0));\n\n  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;\n  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;\n\n  vec3 p0 = vec3(a0.xy,h.x);\n  vec3 p1 = vec3(a0.zw,h.y);\n  vec3 p2 = vec3(a1.xy,h.z);\n  vec3 p3 = vec3(a1.zw,h.w);\n\n//Normalise gradients\n  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));\n  p0 *= norm.x;\n  p1 *= norm.y;\n  p2 *= norm.z;\n  p3 *= norm.w;\n\n// Mix final noise value\n  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);\n  m = m * m;\n  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),\n                                dot(p2,x2), dot(p3,x3) ) );\n}",
-                    blend: "//\n// https://github.com/jamieowen/glsl-blend\n//\n\n// Normal\n\nvec3 blendNormal(vec3 base, vec3 blend) {\n\treturn blend;\n}\n\nvec3 blendNormal(vec3 base, vec3 blend, float opacity) {\n\treturn (blendNormal(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Screen\n\nfloat blendScreen(float base, float blend) {\n\treturn 1.0-((1.0-base)*(1.0-blend));\n}\n\nvec3 blendScreen(vec3 base, vec3 blend) {\n\treturn vec3(blendScreen(base.r,blend.r),blendScreen(base.g,blend.g),blendScreen(base.b,blend.b));\n}\n\nvec3 blendScreen(vec3 base, vec3 blend, float opacity) {\n\treturn (blendScreen(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Multiply\n\nvec3 blendMultiply(vec3 base, vec3 blend) {\n\treturn base*blend;\n}\n\nvec3 blendMultiply(vec3 base, vec3 blend, float opacity) {\n\treturn (blendMultiply(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Overlay\n\nfloat blendOverlay(float base, float blend) {\n\treturn base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));\n}\n\nvec3 blendOverlay(vec3 base, vec3 blend) {\n\treturn vec3(blendOverlay(base.r,blend.r),blendOverlay(base.g,blend.g),blendOverlay(base.b,blend.b));\n}\n\nvec3 blendOverlay(vec3 base, vec3 blend, float opacity) {\n\treturn (blendOverlay(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Hard light\n\nvec3 blendHardLight(vec3 base, vec3 blend) {\n\treturn blendOverlay(blend,base);\n}\n\nvec3 blendHardLight(vec3 base, vec3 blend, float opacity) {\n\treturn (blendHardLight(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Soft light\n\nfloat blendSoftLight(float base, float blend) {\n\treturn (blend<0.5)?(2.0*base*blend+base*base*(1.0-2.0*blend)):(sqrt(base)*(2.0*blend-1.0)+2.0*base*(1.0-blend));\n}\n\nvec3 blendSoftLight(vec3 base, vec3 blend) {\n\treturn vec3(blendSoftLight(base.r,blend.r),blendSoftLight(base.g,blend.g),blendSoftLight(base.b,blend.b));\n}\n\nvec3 blendSoftLight(vec3 base, vec3 blend, float opacity) {\n\treturn (blendSoftLight(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Color dodge\n\nfloat blendColorDodge(float base, float blend) {\n\treturn (blend==1.0)?blend:min(base/(1.0-blend),1.0);\n}\n\nvec3 blendColorDodge(vec3 base, vec3 blend) {\n\treturn vec3(blendColorDodge(base.r,blend.r),blendColorDodge(base.g,blend.g),blendColorDodge(base.b,blend.b));\n}\n\nvec3 blendColorDodge(vec3 base, vec3 blend, float opacity) {\n\treturn (blendColorDodge(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Color burn\n\nfloat blendColorBurn(float base, float blend) {\n\treturn (blend==0.0)?blend:max((1.0-((1.0-base)/blend)),0.0);\n}\n\nvec3 blendColorBurn(vec3 base, vec3 blend) {\n\treturn vec3(blendColorBurn(base.r,blend.r),blendColorBurn(base.g,blend.g),blendColorBurn(base.b,blend.b));\n}\n\nvec3 blendColorBurn(vec3 base, vec3 blend, float opacity) {\n\treturn (blendColorBurn(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Vivid Light\n\nfloat blendVividLight(float base, float blend) {\n\treturn (blend<0.5)?blendColorBurn(base,(2.0*blend)):blendColorDodge(base,(2.0*(blend-0.5)));\n}\n\nvec3 blendVividLight(vec3 base, vec3 blend) {\n\treturn vec3(blendVividLight(base.r,blend.r),blendVividLight(base.g,blend.g),blendVividLight(base.b,blend.b));\n}\n\nvec3 blendVividLight(vec3 base, vec3 blend, float opacity) {\n\treturn (blendVividLight(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Lighten\n\nfloat blendLighten(float base, float blend) {\n\treturn max(blend,base);\n}\n\nvec3 blendLighten(vec3 base, vec3 blend) {\n\treturn vec3(blendLighten(base.r,blend.r),blendLighten(base.g,blend.g),blendLighten(base.b,blend.b));\n}\n\nvec3 blendLighten(vec3 base, vec3 blend, float opacity) {\n\treturn (blendLighten(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Linear burn\n\nfloat blendLinearBurn(float base, float blend) {\n\t// Note : Same implementation as BlendSubtractf\n\treturn max(base+blend-1.0,0.0);\n}\n\nvec3 blendLinearBurn(vec3 base, vec3 blend) {\n\t// Note : Same implementation as BlendSubtract\n\treturn max(base+blend-vec3(1.0),vec3(0.0));\n}\n\nvec3 blendLinearBurn(vec3 base, vec3 blend, float opacity) {\n\treturn (blendLinearBurn(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Linear dodge\n\nfloat blendLinearDodge(float base, float blend) {\n\t// Note : Same implementation as BlendAddf\n\treturn min(base+blend,1.0);\n}\n\nvec3 blendLinearDodge(vec3 base, vec3 blend) {\n\t// Note : Same implementation as BlendAdd\n\treturn min(base+blend,vec3(1.0));\n}\n\nvec3 blendLinearDodge(vec3 base, vec3 blend, float opacity) {\n\treturn (blendLinearDodge(base, blend) * opacity + base * (1.0 - opacity));\n}\n\n// Linear light\n\nfloat blendLinearLight(float base, float blend) {\n\treturn blend<0.5?blendLinearBurn(base,(2.0*blend)):blendLinearDodge(base,(2.0*(blend-0.5)));\n}\n\nvec3 blendLinearLight(vec3 base, vec3 blend) {\n\treturn vec3(blendLinearLight(base.r,blend.r),blendLinearLight(base.g,blend.g),blendLinearLight(base.b,blend.b));\n}\n\nvec3 blendLinearLight(vec3 base, vec3 blend, float opacity) {\n\treturn (blendLinearLight(base, blend) * opacity + base * (1.0 - opacity));\n}",
-                    fragment: "varying vec3 v_color;\n\nvoid main() {\n  vec3 color = v_color;\n  if (u_darken_top == 1.0) {\n    vec2 st = gl_FragCoord.xy/resolution.xy;\n    color.g -= pow(st.y + sin(-12.0) * st.x, u_shadow_power) * 0.4;\n  }\n  gl_FragColor = vec4(color, 1.0);\n}"
-                },
-                this.conf = {
-                    presetName: "",
-                    wireframe: false,
-                    density: [.06, .16],
-                    zoom: 1,
-                    rotation: 0,
-                    playing: true
-                }, 
-                document.querySelectorAll("canvas").length < 1 ? console.log("DID NOT LOAD HERO STRIPE CANVAS") : (
-                    this.minigl = new MiniGl(this.el, null, null, !0), 
-                    requestAnimationFrame(() => {
-                        this.el && (this.computedCanvasStyle = getComputedStyle(this.el), this.waitForCssVars());
-                    })
-                );
-            }
-            disconnect() {
-                this.scrollObserver && (window.removeEventListener("scroll", this.handleScroll), window.removeEventListener("mousedown", this.handleMouseDown), window.removeEventListener("mouseup", this.handleMouseUp), window.removeEventListener("keydown", this.handleKeyDown), this.scrollObserver.disconnect()), window.removeEventListener("resize", this.resize);
-            }
+
             initMaterial() {
                 this.uniforms = {
-                    u_time: new this.minigl.Uniform({
-                        value: 0
-                    }),
-                    u_shadow_power: new this.minigl.Uniform({
-                        value: 5
-                    }),
-                    u_darken_top: new this.minigl.Uniform({
-                        value: "" === this.el.dataset.jsDarkenTop ? 1 : 0
-                    }),
-                    u_active_colors: new this.minigl.Uniform({
-                        value: this.activeColors,
-                        type: "vec4"
-                    }),
+                    u_time: new this.minigl.Uniform({ value: 0 }),
+                    u_shadow_power: new this.minigl.Uniform({ value: 5 }),
+                    u_darken_top: new this.minigl.Uniform({ value: "" === this.el.dataset.jsDarkenTop ? 1 : 0 }),
+                    u_active_colors: new this.minigl.Uniform({ value: this.activeColors, type: "vec4" }),
                     u_global: new this.minigl.Uniform({
                         value: {
-                            noiseFreq: new this.minigl.Uniform({
-                                value: [this.freqX, this.freqY],
-                                type: "vec2"
-                            }),
-                            noiseSpeed: new this.minigl.Uniform({
-                                value: 5e-6
-                            })
+                            noiseFreq: new this.minigl.Uniform({ value: [this.freqX, this.freqY], type: "vec2" }),
+                            noiseSpeed: new this.minigl.Uniform({ value: 5e-6 })
                         },
                         type: "struct"
                     }),
                     u_vertDeform: new this.minigl.Uniform({
                         value: {
-                            incline: new this.minigl.Uniform({
-                                value: Math.sin(this.angle) / Math.cos(this.angle)
-                            }),
-                            offsetTop: new this.minigl.Uniform({
-                                value: -.5
-                            }),
-                            offsetBottom: new this.minigl.Uniform({
-                                value: -.5
-                            }),
-                            noiseFreq: new this.minigl.Uniform({
-                                value: [3, 4],
-                                type: "vec2"
-                            }),
-                            noiseAmp: new this.minigl.Uniform({
-                                value: this.amp
-                            }),
-                            noiseSpeed: new this.minigl.Uniform({
-                                value: 10
-                            }),
-                            noiseFlow: new this.minigl.Uniform({
-                                value: 3
-                            }),
-                            noiseSeed: new this.minigl.Uniform({
-                                value: this.seed
-                            })
+                            incline: new this.minigl.Uniform({ value: Math.sin(this.angle) / Math.cos(this.angle) }),
+                            offsetTop: new this.minigl.Uniform({ value: -.5 }),
+                            offsetBottom: new this.minigl.Uniform({ value: -.5 }),
+                            noiseFreq: new this.minigl.Uniform({ value: [3, 4], type: "vec2" }),
+                            noiseAmp: new this.minigl.Uniform({ value: this.amp }),
+                            noiseSpeed: new this.minigl.Uniform({ value: 10 }),
+                            noiseFlow: new this.minigl.Uniform({ value: 3 }),
+                            noiseSeed: new this.minigl.Uniform({ value: this.seed })
                         },
                         type: "struct",
                         excludeFrom: "fragment"
                     }),
-                    u_baseColor: new this.minigl.Uniform({
-                        value: this.sectionColors[0],
-                        type: "vec3",
-                        excludeFrom: "fragment"
-                    }),
-                    u_waveLayers: new this.minigl.Uniform({
-                        value: [],
-                        excludeFrom: "fragment",
-                        type: "array"
-                    })
+                    u_baseColor: new this.minigl.Uniform({ value: this.sectionColors[0], type: "vec3", excludeFrom: "fragment" }),
+                    u_waveLayers: new this.minigl.Uniform({ value: [], excludeFrom: "fragment", type: "array" })
                 };
-                for (let e = 1; e < this.sectionColors.length; e += 1) this.uniforms.u_waveLayers.value.push(new this.minigl.Uniform({
-                    value: {
-                        color: new this.minigl.Uniform({
-                            value: this.sectionColors[e],
-                            type: "vec3"
-                        }),
-                        noiseFreq: new this.minigl.Uniform({
-                            value: [2 + e / this.sectionColors.length, 3 + e / this.sectionColors.length],
-                            type: "vec2"
-                        }),
-                        noiseSpeed: new this.minigl.Uniform({
-                            value: 11 + .3 * e
-                        }),
-                        noiseFlow: new this.minigl.Uniform({
-                            value: 6.5 + .3 * e
-                        }),
-                        noiseSeed: new this.minigl.Uniform({
-                            value: this.seed + 10 * e
-                        }),
-                        noiseFloor: new this.minigl.Uniform({
-                            value: .1
-                        }),
-                        noiseCeil: new this.minigl.Uniform({
-                            value: .63 + .07 * e
-                        })
-                    },
-                    type: "struct"
-                }));
-                return this.vertexShader = [this.shaderFiles.noise, this.shaderFiles.blend, this.shaderFiles.vertex].join("\n\n"), new this.minigl.Material(this.vertexShader, this.shaderFiles.fragment, this.uniforms);
+                for (let e = 1; e < this.sectionColors.length; e += 1) {
+                    this.uniforms.u_waveLayers.value.push(new this.minigl.Uniform({
+                        value: {
+                            color: new this.minigl.Uniform({ value: this.sectionColors[e], type: "vec3" }),
+                            noiseFreq: new this.minigl.Uniform({ value: [2 + e / this.sectionColors.length, 3 + e / this.sectionColors.length], type: "vec2" }),
+                            noiseSpeed: new this.minigl.Uniform({ value: 11 + .3 * e }),
+                            noiseFlow: new this.minigl.Uniform({ value: 6.5 + .3 * e }),
+                            noiseSeed: new this.minigl.Uniform({ value: this.seed + 10 * e }),
+                            noiseFloor: new this.minigl.Uniform({ value: .1 }),
+                            noiseCeil: new this.minigl.Uniform({ value: .63 + .07 * e })
+                        },
+                        type: "struct"
+                    }));
+                }
+                this.vertexShader = [this.shaderFiles.noise, this.shaderFiles.blend, this.shaderFiles.vertex].join("\n\n");
+                return new this.minigl.Material(this.vertexShader, this.shaderFiles.fragment, this.uniforms);
             }
+
             initMesh() {
-                this.material = this.initMaterial(), this.geometry = new this.minigl.PlaneGeometry, this.mesh = new this.minigl.Mesh(this.geometry, this.material);
+                this.material = this.initMaterial();
+                this.geometry = new this.minigl.PlaneGeometry();
+                this.mesh = new this.minigl.Mesh(this.geometry, this.material);
             }
-            shouldSkipFrame(e) {
-                return !!window.document.hidden || (!this.conf.playing || (parseInt(e, 10) % 2 == 0 || void 0));
+
+            resize() {
+                this.width = window.innerWidth;
+                this.minigl.setSize(this.width, this.height);
+                this.minigl.setOrthographicCamera();
+                this.xSegCount = Math.ceil(this.width * this.conf.density[0]);
+                this.ySegCount = Math.ceil(this.height * this.conf.density[1]);
+                this.mesh.geometry.setTopology(this.xSegCount, this.ySegCount);
+                this.mesh.geometry.setSize(this.width, this.height);
+                this.mesh.material.uniforms.u_shadow_power.value = this.width < 600 ? 5 : 6;
             }
-            updateFrequency(e) {
-                this.freqX += e, this.freqY += e;
-            }
-            toggleColor(index) {
-                this.activeColors[index] = 0 === this.activeColors[index] ? 1 : 0;
-            }
-            showGradientLegend() {
-                this.width > this.minWidth && (this.isGradientLegendVisible = !0, document.body.classList.add("isGradientLegendVisible"));
-            }
-            hideGradientLegend() {
-                this.isGradientLegendVisible = !1, document.body.classList.remove("isGradientLegendVisible");
-            }
-            init() {
-                this.initGradientColors(), this.initMesh(), this.resize(), requestAnimationFrame(this.animate), window.addEventListener("resize", this.resize);
-            }
-            waitForCssVars() {
-                if (this.computedCanvasStyle && -1 !== this.computedCanvasStyle.getPropertyValue("--gradient-color-1").indexOf("#")) this.init(), this.addIsLoadedClass();
-                else {
-                    if (this.cssVarRetries += 1, this.cssVarRetries > this.maxCssVarRetries) {
-                        return this.sectionColors = [
-                            normalizeColor(0x000000),
-                            normalizeColor(0x000000),
-                            normalizeColor(0x000000),
-                            normalizeColor(0x333333)
-                        ], void this.init();
-                    }
-                    requestAnimationFrame(() => this.waitForCssVars());
+
+            animate(e) {
+                if (!this.shouldSkipFrame(e) || this.isMouseDown) {
+                    this.t += Math.min(e - this.last, 1e3 / 15);
+                    this.last = e;
+                    this.mesh.material.uniforms.u_time.value = this.t;
+                    this.minigl.render();
+                }
+                if (this.conf.playing || this.isMouseDown) {
+                    requestAnimationFrame(this.animate.bind(this));
                 }
             }
+
+            shouldSkipFrame(e) {
+                return !!window.document.hidden || (!this.conf.playing || (parseInt(e, 10) % 2 === 0));
+            }
+
             initGradientColors() {
                 this.sectionColors = [
                     normalizeColor(0x000000),
@@ -755,10 +915,119 @@
                     normalizeColor(0x333333)
                 ];
             }
+
+            waitForCssVars() {
+                if (this.computedCanvasStyle && this.computedCanvasStyle.getPropertyValue("--gradient-color-1").indexOf("#") !== -1) {
+                    this.init();
+                    this.addIsLoadedClass();
+                } else {
+                    this.cssVarRetries += 1;
+                    if (this.cssVarRetries > this.maxCssVarRetries) {
+                        this.sectionColors = [
+                            normalizeColor(0x000000),
+                            normalizeColor(0x000000),
+                            normalizeColor(0x000000),
+                            normalizeColor(0x333333)
+                        ];
+                        this.init();
+                    } else {
+                        requestAnimationFrame(() => this.waitForCssVars());
+                    }
+                }
+            }
+
+            addIsLoadedClass() {
+                if (!this.isLoadedClass) {
+                    this.isLoadedClass = true;
+                    this.el.classList.add("isLoaded");
+                    setTimeout(() => this.el.parentElement.classList.add("isLoaded"), 3e3);
+                }
+            }
+
+            init() {
+                this.initGradientColors();
+                this.initMesh();
+                this.resize();
+                requestAnimationFrame(this.animate.bind(this));
+                window.addEventListener("resize", this.resize.bind(this));
+                setTimeout(() => {
+                    document.body.classList.remove('loading');
+                    window.removeEventListener('scroll', lockScroll);
+                    window.scrollTo(0, 0);
+                }, 0);
+            }
         }
 
-        var gradient = new Gradient();
-        gradient.initGradient("#gradient-canvas");
+        // Initialize gradient after DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            var gradient = new Gradient();
+            gradient.initGradient("#gradient-canvas");
+
+            // Start animations after gradient init
+            animatedElements.forEach(el => {
+                el.style.animationPlayState = 'running';
+            });
+
+            // Popup functionality
+            const popupOverlay = document.getElementById('popup-overlay');
+            const contactLinks = document.querySelectorAll('.contact-link');
+            const contactForm = document.getElementById('contact-form');
+            const closeBtn = document.getElementById('close-btn');
+
+            contactLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    popupOverlay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            popupOverlay.addEventListener('click', (e) => {
+                if (e.target === popupOverlay) {
+                    popupOverlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                popupOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            contactForm.addEventListener('submit', (e) => {
+                const message = document.querySelector('textarea[name="message"]').value.trim();
+                const name = document.querySelector('input[name="name"]').value.trim();
+                const email = document.querySelector('input[name="email"]').value.trim();
+                if (!message || !name || !email) {
+                    e.preventDefault();
+                    alert('Please fill in all fields (Name, Email, and Message).');
+                } else {
+                    // Optional: Add a success message or handle response
+                    setTimeout(() => {
+                        popupOverlay.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        document.querySelector('textarea[name="message"]').value = '';
+                        document.querySelector('input[name="name"]').value = '';
+                        document.querySelector('input[name="email"]').value = '';
+                        alert('Message sent! Please check your email to confirm the first submission.');
+                    }, 500); // Delay to simulate form submission
+                }
+            });
+        });
+
+        // Final scroll check on reload
+        window.addEventListener('load', () => {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            setTimeout(() => {
+                console.log('Scroll position after load:', window.scrollY);
+                if (window.scrollY !== 0) {
+                    window.scrollTo(0, 0);
+                }
+            }, 0);
+        });
     </script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91e775846f65452b',t:'MTc0MTY1ODQzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
