@@ -137,7 +137,7 @@
             align-items: center;
             justify-content: space-between;
             min-height: 80vh;
-            margin-top: 4rem; /* Increased spacing from top bar */
+            margin-top: 4rem;
             opacity: 0;
             transform: translateY(20px);
             animation: floatIn 0.5s ease-out forwards;
@@ -170,9 +170,9 @@
 
         .cta-buttons {
             display: flex;
-            flex-direction: row; /* Change to horizontal */
+            flex-direction: row;
             align-items: center;
-            justify-content: center; /* Adjust spacing as needed */
+            justify-content: center;
             gap: 1rem;
         }
 
@@ -350,7 +350,7 @@
 
         .popup .close-btn {
             position: absolute;
-            top: 15px; /* Symmetrical positioning */
+            top: 15px;
             right: 15px;
             background: none;
             border: none;
@@ -386,7 +386,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.38rem; /* Equal spacing matching original message-to-name gap */
+            gap: 0.38rem;
         }
 
         .popup .name-box, .popup .email-box {
@@ -435,27 +435,26 @@
             z-index: -1;
         }
 
-        /* Mobile adjustments for popup */
         @media (max-width: 768px) {
             .popup {
                 width: 450px;
                 padding: 1rem;
-                height: auto; /* Allow height to adjust to content */
-                min-height: 450px; /* Ensure it doesn’t shrink too small */
+                height: auto;
+                min-height: 450px;
             }
 
             .popup .message-box {
-                height: 150px; /* Slightly smaller to fit mobile */
+                height: 150px;
             }
 
             .popup .form-bottom {
-                gap: 0.4rem; /* Consistent spacing */
+                gap: 0.4rem;
             }
         }
 
         nav a[href="https://github.com/AntonP29"] svg {
             position: relative;
-            top: 6px; /* Adjust this value (e.g., 2px, 6px) as needed */
+            top: 6px;
         }
 
         nav a[href="#projects"],
@@ -465,7 +464,7 @@
 
         nav {
             position: relative;
-            top: -2.75px; /* Adjust this value to move it up more or less */
+            top: -2.75px;
         }
 
         nav a {
@@ -475,8 +474,8 @@
             transition: color 0.3s ease;
             animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
-            display: inline-flex; /* Helps align the icon and text */
-            align-items: center; /* Vertically centers the GitHub icon with text */
+            display: inline-flex;
+            align-items: center;
         }
 
         .progress {
@@ -488,13 +487,13 @@
             padding: 0 5px;
             display: flex;
             height: 20px;
-            width: 100%; /* Full width of container */
-            max-width: 200px; /* Cap width */
+            width: 100%;
+            max-width: 200px;
             backdrop-filter: blur(20px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             border: 2px solid transparent;
             transition: border 0.3s ease, opacity 0.1s ease;
-            margin: 1rem auto 0; /* Center horizontally, add space above */
+            margin: 1rem auto 0;
         }
 
         .progress-value {
@@ -502,13 +501,13 @@
             box-shadow: 0 10px 40px -10px #fff;
             border-radius: 100px;
             background: #fff;
-            height: 14px; /* Adjusted to fit smaller progress bar */
+            height: 14px;
             width: 0;
         }
 
         @keyframes load {
             0% { width: 0; }
-            100% { width: 100%; } /* You can tweak this */
+            100% { width: 100%; }
         }
 
         .progress.fade-out {
@@ -594,20 +593,16 @@
     </div>
 
     <script>
-        // Disable browser scroll restoration
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
 
-        // Force scroll to top immediately
         window.scrollTo(0, 0);
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
 
-        // Lock scroll during initialization
         document.body.classList.add('loading');
 
-        // Prevent any scroll attempts
         const lockScroll = (e) => {
             e.preventDefault();
             window.scrollTo(0, 0);
@@ -616,13 +611,11 @@
         };
         window.addEventListener('scroll', lockScroll);
 
-        // Pause animations initially
         const animatedElements = document.querySelectorAll('.container, .hero, header, .projects, footer, .project-card, .hero h1, .hero p, nav a, .projects h2, .project-card h3, .project-card p, footer p');
         animatedElements.forEach(el => {
             el.style.animationPlayState = 'paused';
         });
 
-        // Gradient script
         function normalizeColor(hexCode) {
             return [(hexCode >> 16 & 255) / 255, (hexCode >> 8 & 255) / 255, (255 & hexCode) / 255];
         }
@@ -1048,18 +1041,14 @@
             }
         }
 
-        // Initialize gradient after DOM is ready
-        // Initialize gradient after DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
             var gradient = new Gradient();
             gradient.initGradient("#gradient-canvas");
 
-            // Start animations after gradient init
             animatedElements.forEach(el => {
                 el.style.animationPlayState = 'running';
             });
 
-            // Popup functionality
             const popupOverlay = document.getElementById('popup-overlay');
             const contactLinks = document.querySelectorAll('.contact-link');
             const contactForm = document.getElementById('contact-form');
@@ -1104,7 +1093,6 @@
                 }
             });
 
-            // Loading bar functionality - Sync with gradient init
             const progressBar = document.querySelector('.progress');
             if (progressBar) {
                 const startProgress = () => {
@@ -1113,10 +1101,10 @@
                             progressBar.classList.add('fade-out');
                             setTimeout(() => {
                                 progressBar.style.display = 'none';
-                            }, 50); // Matches 0.5s fade-out transition
-                        }, 50); // 2s animation + 2s delay
+                            }, 50);
+                        }, 50);
                     } else {
-                        requestAnimationFrame(startProgress); // Keep checking
+                        requestAnimationFrame(startProgress);
                     }
                 };
                 requestAnimationFrame(startProgress);
