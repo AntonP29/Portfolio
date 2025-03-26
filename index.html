@@ -12,6 +12,7 @@
             --acrylic-opacity: rgba(0, 0, 0, 0.3);
             --border-grey: #4a4848;
             --green-acrylic: rgba(34, 139, 34, 0.3);
+            --subtext-grey: #999; /* Slightly darker grey for "by" section */
         }
 
         .project-card {
@@ -518,15 +519,16 @@
         .discord-card {
             display: flex;
             align-items: center;
-            padding: 0;
+            padding: 0; /* No padding */
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
             border: 2px solid transparent;
             transition: border 0.3s ease;
-            max-height: 100px;
+            height: 60px; /* Fixed height for symmetry */
             position: relative;
-            min-height: 60px; /* Ensure consistent height for centering */
+            width: 100%; /* Ensure full width */
+            box-sizing: border-box;
         }
 
         .discord-card:hover {
@@ -538,6 +540,7 @@
             height: 48px;
             border-radius: 50%;
             margin-left: 0.5rem;
+            flex-shrink: 0;
         }
 
         .discord-info {
@@ -546,12 +549,15 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-width: 0; /* Allow shrinking */
         }
 
         .user-line {
             display: flex;
             align-items: center;
             gap: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         .status-dot {
@@ -559,6 +565,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .status-dot.online { background-color: #43b581; }
@@ -570,12 +577,16 @@
             font-weight: bold;
             color: var(--text-light);
             font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .badges {
             display: flex;
             gap: 0.3rem;
             align-items: center;
+            flex-shrink: 0;
         }
 
         .badge {
@@ -593,28 +604,47 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 0.2rem;
+            margin-top: 0.1rem;
             max-width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-text-wrapper {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         .activity-text {
             color: var(--text-light);
             margin: 0;
-            font-size: 0.7rem; /* Smaller font size */
+            font-size: 0.65rem; /* Even smaller font size */
+            line-height: 1;
+            display: inline-block;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1; /* Remove extra line spacing */
+        }
+
+        .activity-text.scrolling {
+            animation: scroll 10s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
 
         .artist-text {
-            color: #aaa;
+            color: var(--subtext-grey); /* Slightly darker grey */
             margin: 0;
-            font-size: 0.6rem; /* Smaller than activity-text */
+            font-size: 0.55rem; /* Smaller than activity-text */
+            line-height: 1;
+            display: inline-block;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1; /* Remove extra line spacing */
+        }
+
+        .artist-text.scrolling {
+            animation: scroll 10s linear infinite;
         }
 
         .album-art {
@@ -626,6 +656,7 @@
             top: 50%;
             transform: translateY(-50%);
             margin: 0;
+            flex-shrink: 0;
         }
 
         /* Adjust hero-content to ensure no overlap */
@@ -637,6 +668,47 @@
 
         #discord-embed {
             margin-bottom: 1rem;
+            padding: 0; /* Remove any padding */
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .discord-card {
+                height: 60px; /* Consistent height on mobile */
+            }
+
+            .avatar {
+                width: 40px;
+                height: 40px;
+                margin-left: 0.3rem;
+            }
+
+            .discord-info {
+                margin-left: 0.3rem;
+            }
+
+            .username {
+                font-size: 0.9rem;
+            }
+
+            .badge {
+                width: 12px;
+                height: 12px;
+            }
+
+            .activity-text {
+                font-size: 0.6rem;
+            }
+
+            .artist-text {
+                font-size: 0.5rem;
+            }
+
+            .album-art {
+                width: 36px;
+                height: 36px;
+                right: 0.3rem;
+            }
         }
     </style>
 </head>
@@ -674,7 +746,9 @@
                                 <div id="badges" class="badges"></div>
                             </div>
                             <div id="last-seen" class="last-seen"></div>
-                            <div id="activity" class="activity-container"></div>
+                            <div id="activity" class="activity-container">
+                                <div id="activity-text-wrapper" class="activity-text-wrapper"></div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -1315,17 +1389,34 @@
                 }
 
                 // Activity
+                const activityWrapper = document.getElementById('activity-text-wrapper');
+                activityWrapper.innerHTML = '';
                 const activityDiv = document.getElementById('activity');
-                activityDiv.innerHTML = '';
+                activityDiv.innerHTML = ''; // Clear previous content
+                activityDiv.appendChild(activityWrapper); // Re-append the wrapper
+
                 if (data.activities && data.activities.length > 0 && data.status !== 'offline') {
                     data.activities.forEach(activity => {
                         if (activity.name === 'Spotify' && activity.type === 2) {
-                            const activityContent = document.createElement('div');
-                            activityContent.innerHTML = `
-                                <p class="activity-text">Listening to: ${activity.details}</p>
-                                <p class="artist-text">by ${activity.state}</p>
-                            `;
-                            activityDiv.appendChild(activityContent);
+                            const activityText = document.createElement('p');
+                            activityText.className = 'activity-text';
+                            activityText.textContent = `Listening to: ${activity.details}`;
+                            activityWrapper.appendChild(activityText);
+
+                            const artistText = document.createElement('p');
+                            artistText.className = 'artist-text';
+                            artistText.textContent = `by ${activity.state}`;
+                            activityWrapper.appendChild(artistText);
+
+                            // Check if text overflows and apply scrolling
+                            requestAnimationFrame(() => {
+                                if (activityText.scrollWidth > activityWrapper.clientWidth) {
+                                    activityText.classList.add('scrolling');
+                                }
+                                if (artistText.scrollWidth > activityWrapper.clientWidth) {
+                                    artistText.classList.add('scrolling');
+                                }
+                            });
 
                             if (activity.assets && activity.assets.largeImage) {
                                 const albumArt = document.createElement('img');
@@ -1338,15 +1429,31 @@
                                 activityDiv.appendChild(albumArt);
                             }
                         } else {
-                            const activityContent = document.createElement('div');
-                            activityContent.innerHTML = `<p class="activity-text">${activity.name}: ${activity.details || activity.state || 'No details'}</p>`;
-                            activityDiv.appendChild(activityContent);
+                            const activityText = document.createElement('p');
+                            activityText.className = 'activity-text';
+                            activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
+                            activityWrapper.appendChild(activityText);
+
+                            // Check if text overflows and apply scrolling
+                            requestAnimationFrame(() => {
+                                if (activityText.scrollWidth > activityWrapper.clientWidth) {
+                                    activityText.classList.add('scrolling');
+                                }
+                            });
                         }
                     });
                 } else if (data.status !== 'offline') {
-                    const activityContent = document.createElement('div');
-                    activityContent.innerHTML = `<p class="activity-text">Not doing anything currently</p>`;
-                    activityDiv.appendChild(activityContent);
+                    const activityText = document.createElement('p');
+                    activityText.className = 'activity-text';
+                    activityText.textContent = 'Not doing anything currently';
+                    activityWrapper.appendChild(activityText);
+
+                    // Check if text overflows and apply scrolling
+                    requestAnimationFrame(() => {
+                        if (activityText.scrollWidth > activityWrapper.clientWidth) {
+                            activityText.classList.add('scrolling');
+                        }
+                    });
                 }
 
                 // After first load, disable animations
