@@ -1163,20 +1163,20 @@
     <script>
         async function fetchDiscordPresence() {
             try {
-                const response = await fetch('https://repo-proxy.antonp29.workers.dev?url=https://presencebot.onrender.com/presence');
+                const response = await fetch('https://presencebot-proxy.antonp29.workers.dev/presence');
                 const data = await response.json();
-
+    
                 if (data.error) {
                     document.getElementById('discord-profile').innerHTML = '<p>User not found</p>';
                     return;
                 }
-
+    
                 document.getElementById('avatar').src = data.avatarURL;
                 document.getElementById('username').textContent = `${data.username}#${data.discriminator}`;
                 const statusDot = document.getElementById('status');
                 statusDot.textContent = data.lastSeen;
                 statusDot.className = `status-dot ${data.status}`;
-
+    
                 const activityDiv = document.getElementById('activity');
                 activityDiv.innerHTML = '';
                 if (data.activities && data.activities.length > 0) {
@@ -1199,9 +1199,9 @@
                 document.getElementById('discord-profile').innerHTML = '<p>Error loading status</p>';
             }
         }
-
-        // Periodic update for Discord status
-        setInterval(fetchDiscordPresence, 30000);
+    
+        // Initial call is in DOMContentLoaded in the main script
+        setInterval(fetchDiscordPresence, 30000); // Updates every 30 seconds
     </script>
 </body>
 </html>
