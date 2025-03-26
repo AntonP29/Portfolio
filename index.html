@@ -1163,7 +1163,7 @@
     <script>
         async function fetchDiscordPresence() {
             try {
-                const response = await fetch('https://presencebot.onrender.com/presence');
+                const response = await fetch('https://repo-proxy.antonp29.workers.dev?url=https://presencebot.onrender.com/presence');
                 const data = await response.json();
 
                 if (data.error) {
