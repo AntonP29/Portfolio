@@ -514,10 +514,10 @@
             opacity: 0;
         }
 
-        /* Discord Embed CSS */
+        /* Updated Discord Embed CSS */
         .discord-card {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 1rem;
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
@@ -525,23 +525,84 @@
             border: 2px solid transparent;
             transition: border 0.3s ease;
         }
+
         .discord-card:hover {
             border: 2px solid var(--border-grey);
         }
+
+        .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+        }
+
         .discord-info {
             margin-left: 1rem;
+            flex: 1;
         }
+
+        .user-line {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
         .status-dot {
             display: inline-block;
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            margin-left: 0.5rem;
         }
+
         .status-dot.online { background-color: #43b581; }
         .status-dot.idle { background-color: #faa61a; }
         .status-dot.dnd { background-color: #f04747; }
         .status-dot.offline { background-color: #747f8d; }
+
+        .username {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .badges {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .badge {
+            width: 16px;
+            height: 16px;
+        }
+
+        .last-seen {
+            font-size: 0.8rem;
+            color: #aaa;
+            margin-top: 0.2rem;
+        }
+
+        .activity-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .activity-text {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .artist-text {
+            color: #aaa;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .album-art {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body class="loading">
@@ -567,15 +628,19 @@
                 <h1>AntonP29</h1>
                 <p>HTML/CSS | Javascript | iOS Sideloading</p>
                 
-                <!-- Discord Embed -->
+                <!-- Updated Discord Embed -->
                 <section id="discord-embed" class="acrylic">
                     <h2>Discord Status</h2>
                     <div id="discord-profile" class="discord-card">
-                        <img id="avatar" src="" alt="Avatar" style="width: 64px; height: 64px; border-radius: 50%;">
+                        <img id="avatar" src="" alt="Avatar" class="avatar">
                         <div class="discord-info">
-                            <span id="username"></span>
-                            <span id="status" class="status-dot"></span>
-                            <div id="activity"></div>
+                            <div class="user-line">
+                                <span id="status" class="status-dot"></span>
+                                <span id="username" class="username"></span>
+                                <div id="badges" class="badges"></div>
+                            </div>
+                            <div id="last-seen" class="last-seen"></div>
+                            <div id="activity" class="activity-container"></div>
                         </div>
                     </div>
                 </section>
@@ -1159,49 +1224,97 @@
         });
     </script>
 
-    <!-- Discord Embed Script -->
+    <!-- Updated Discord Embed Script -->
     <script>
         async function fetchDiscordPresence() {
             try {
                 const response = await fetch('https://presencebot-proxy.antonp29.workers.dev/presence');
                 const data = await response.json();
-    
+
                 if (data.error) {
                     document.getElementById('discord-profile').innerHTML = '<p>User not found</p>';
                     return;
                 }
-    
+
+                // Avatar
                 document.getElementById('avatar').src = data.avatarURL;
+
+                // Username and Status
                 document.getElementById('username').textContent = `${data.username}#${data.discriminator}`;
                 const statusDot = document.getElementById('status');
-                statusDot.textContent = data.lastSeen;
                 statusDot.className = `status-dot ${data.status}`;
-    
+
+                // Badges
+                const badgesDiv = document.getElementById('badges');
+                badgesDiv.innerHTML = '';
+                if (data.badges && data.badges.length > 0) {
+                    data.badges.forEach(badge => {
+                        const badgeImg = document.createElement('img');
+                        badgeImg.src = getBadgeUrl(badge);
+                        badgeImg.alt = badge;
+                        badgeImg.className = 'badge';
+                        badgesDiv.appendChild(badgeImg);
+                    });
+                }
+
+                // Last Seen (only show if offline)
+                const lastSeen = document.getElementById('last-seen');
+                if (data.status === 'offline') {
+                    lastSeen.textContent = `last seen ${data.lastSeen}`;
+                    lastSeen.style.display = 'block';
+                } else {
+                    lastSeen.style.display = 'none';
+                }
+
+                // Activity
                 const activityDiv = document.getElementById('activity');
                 activityDiv.innerHTML = '';
-                if (data.activities && data.activities.length > 0) {
+                if (data.activities && data.activities.length > 0 && data.status !== 'offline') {
                     data.activities.forEach(activity => {
                         if (activity.name === 'Spotify' && activity.type === 2) {
-                            activityDiv.innerHTML = `
-                                <p>Listening to: ${activity.details}</p>
-                                <p>By: ${activity.state}</p>
-                                ${activity.assets && activity.assets.largeImage ? `<img src="${activity.assets.largeImage}" alt="Album Art" style="width: 50px; height: 50px;">` : ''}
+                            const activityContent = document.createElement('div');
+                            activityContent.innerHTML = `
+                                <p class="activity-text">Listening to: ${activity.details}</p>
+                                <p class="artist-text">by ${activity.state}</p>
                             `;
+                            activityDiv.appendChild(activityContent);
+
+                            if (activity.assets && activity.assets.largeImage) {
+                                const albumArt = document.createElement('img');
+                                albumArt.src = activity.assets.largeImage;
+                                albumArt.alt = 'Album Art';
+                                albumArt.className = 'album-art';
+                                activityDiv.appendChild(albumArt);
+                            }
                         } else {
-                            activityDiv.innerHTML += `<p>${activity.name}: ${activity.details || activity.state || 'No details'}</p>`;
+                            const activityContent = document.createElement('div');
+                            activityContent.innerHTML = `<p class="activity-text">${activity.name}: ${activity.details || activity.state || 'No details'}</p>`;
+                            activityDiv.appendChild(activityContent);
                         }
                     });
-                } else {
-                    activityDiv.textContent = 'No activity';
                 }
             } catch (error) {
                 console.error('Error fetching Discord presence:', error);
                 document.getElementById('discord-profile').innerHTML = '<p>Error loading status</p>';
             }
         }
-    
-        // Initial call is in DOMContentLoaded in the main script
-        setInterval(fetchDiscordPresence, 30000); // Updates every 30 seconds
+
+        // Function to map badge names to image URLs
+        function getBadgeUrl(badgeName) {
+            const badgeUrls = {
+                'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
+                'hypesquad_brilliance': 'https://cdn.discordapp.com/badge-icons/5e74e9b622f3e4e9c65b97dc6773f999f78a8a5.png',
+                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
+                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/bf01d1073931f558f9655b07e52089ec1ae9a65.png',
+                'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc4288a24548b5f8b1af1dd03db14e.png',
+                'bug_hunter': 'https://cdn.discordapp.com/badge-icons/90a2e0caddd0c0a2f8e1af1dd03db14e.png',
+                'early_supporter': 'https://cdn.discordapp.com/badge-icons/7060786766c9ba94ae9881d77d8ae105.png',
+                // Add more badge mappings as needed
+            };
+            return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png'; // Fallback
+        }
+
+        setInterval(fetchDiscordPresence, 30000);
     </script>
 </body>
 </html>
