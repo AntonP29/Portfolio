@@ -518,12 +518,13 @@
         .discord-card {
             display: flex;
             align-items: flex-start;
-            padding: 1rem;
+            padding: 0.5rem; /* Reduced padding for compactness */
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
             border: 2px solid transparent;
             transition: border 0.3s ease;
+            max-height: 100px; /* Limit height to prevent overlap */
         }
 
         .discord-card:hover {
@@ -531,26 +532,26 @@
         }
 
         .avatar {
-            width: 64px;
-            height: 64px;
+            width: 48px; /* Smaller avatar for compactness */
+            height: 48px;
             border-radius: 50%;
         }
 
         .discord-info {
-            margin-left: 1rem;
+            margin-left: 0.5rem; /* Reduced margin */
             flex: 1;
         }
 
         .user-line {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.2rem; /* Reduced gap */
         }
 
         .status-dot {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 8px; /* Smaller dot */
+            height: 8px;
             border-radius: 50%;
         }
 
@@ -562,46 +563,59 @@
         .username {
             font-weight: bold;
             color: var(--text-light);
+            font-size: 1rem; /* Smaller font */
         }
 
         .badges {
             display: flex;
-            gap: 0.3rem;
+            gap: 0.2rem; /* Reduced gap */
         }
 
         .badge {
-            width: 16px;
-            height: 16px;
+            width: 14px; /* Smaller badges */
+            height: 14px;
         }
 
         .last-seen {
-            font-size: 0.8rem;
+            font-size: 0.7rem; /* Smaller font */
             color: #aaa;
-            margin-top: 0.2rem;
+            margin-top: 0.1rem; /* Reduced margin */
         }
 
         .activity-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-top: 0.5rem;
+            gap: 0.5rem; /* Reduced gap */
+            margin-top: 0.2rem; /* Reduced margin */
         }
 
         .activity-text {
             color: var(--text-light);
             margin: 0;
+            font-size: 0.9rem; /* Smaller font */
         }
 
         .artist-text {
             color: #aaa;
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Smaller font */
         }
 
         .album-art {
-            width: 50px;
-            height: 50px;
+            width: 40px; /* Smaller album art */
+            height: 40px;
             border-radius: 5px;
+        }
+
+        /* Adjust hero-content to ensure no overlap */
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; /* Reduced gap between elements */
+        }
+
+        #discord-embed {
+            margin-bottom: 1rem; /* Ensure space for buttons */
         }
     </style>
 </head>
@@ -630,7 +644,6 @@
                 
                 <!-- Updated Discord Embed -->
                 <section id="discord-embed" class="acrylic">
-                    <h2>Discord Status</h2>
                     <div id="discord-profile" class="discord-card">
                         <img id="avatar" src="" alt="Avatar" class="avatar">
                         <div class="discord-info">
@@ -1239,8 +1252,10 @@
                 // Avatar
                 document.getElementById('avatar').src = data.avatarURL;
 
-                // Username and Status
-                document.getElementById('username').textContent = `${data.username}#${data.discriminator}`;
+                // Username (remove #discriminator)
+                document.getElementById('username').textContent = data.username;
+
+                // Status
                 const statusDot = document.getElementById('status');
                 statusDot.className = `status-dot ${data.status}`;
 
@@ -1292,6 +1307,10 @@
                             activityDiv.appendChild(activityContent);
                         }
                     });
+                } else if (data.status !== 'offline') {
+                    const activityContent = document.createElement('div');
+                    activityContent.innerHTML = `<p class="activity-text">Not doing anything currently</p>`;
+                    activityDiv.appendChild(activityContent);
                 }
             } catch (error) {
                 console.error('Error fetching Discord presence:', error);
@@ -1305,11 +1324,12 @@
                 'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
                 'hypesquad_brilliance': 'https://cdn.discordapp.com/badge-icons/5e74e9b622f3e4e9c65b97dc6773f999f78a8a5.png',
                 'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
-                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/bf01d1073931f558f9655b07e52089ec1ae9a65.png',
-                'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc4288a24548b5f8b1af1dd03db14e.png',
+                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
+                'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png',
                 'bug_hunter': 'https://cdn.discordapp.com/badge-icons/90a2e0caddd0c0a2f8e1af1dd03db14e.png',
                 'early_supporter': 'https://cdn.discordapp.com/badge-icons/7060786766c9ba94ae9881d77d8ae105.png',
-                // Add more badge mappings as needed
+                'originally_known_as': 'https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png',
+                'completed_quest': 'https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png'
             };
             return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png'; // Fallback
         }
