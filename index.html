@@ -517,15 +517,16 @@
         /* Updated Discord Embed CSS */
         .discord-card {
             display: flex;
-            align-items: center; /* Center vertically */
-            padding: 0; /* Remove padding */
+            align-items: center;
+            padding: 0;
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
             border: 2px solid transparent;
             transition: border 0.3s ease;
             max-height: 100px;
-            position: relative; /* For absolute positioning of album art */
+            position: relative;
+            min-height: 60px; /* Ensure consistent height for centering */
         }
 
         .discord-card:hover {
@@ -536,7 +537,7 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            margin-left: 0.5rem; /* Small margin for spacing */
+            margin-left: 0.5rem;
         }
 
         .discord-info {
@@ -573,7 +574,7 @@
 
         .badges {
             display: flex;
-            gap: 0.3rem; /* Consistent spacing between badges */
+            gap: 0.3rem;
             align-items: center;
         }
 
@@ -593,25 +594,27 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 0.2rem;
-            max-width: 100%; /* Prevent overflow */
+            max-width: 100%;
         }
 
         .activity-text {
             color: var(--text-light);
             margin: 0;
-            font-size: 0.8rem; /* Smaller font size */
-            white-space: nowrap; /* Prevent wrapping */
+            font-size: 0.7rem; /* Smaller font size */
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Truncate with ellipsis if too long */
+            text-overflow: ellipsis;
+            line-height: 1; /* Remove extra line spacing */
         }
 
         .artist-text {
             color: #aaa;
             margin: 0;
-            font-size: 0.7rem; /* Smaller font size */
+            font-size: 0.6rem; /* Smaller than activity-text */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            line-height: 1; /* Remove extra line spacing */
         }
 
         .album-art {
@@ -619,10 +622,10 @@
             height: 40px;
             border-radius: 5px;
             position: absolute;
-            right: 0.5rem; /* Symmetrical distance from right */
-            top: 50%; /* Center vertically */
-            transform: translateY(-50%); /* Adjust for centering */
-            margin: 0; /* Remove any default margin */
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
         }
 
         /* Adjust hero-content to ensure no overlap */
