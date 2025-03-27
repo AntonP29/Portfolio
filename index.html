@@ -12,7 +12,7 @@
             --acrylic-opacity: rgba(0, 0, 0, 0.3);
             --border-grey: #4a4848;
             --green-acrylic: rgba(34, 139, 34, 0.3);
-            --subtext-grey: #777; /* Darker grey for "by" section */
+            --subtext-grey: #777;
         }
 
         .project-card {
@@ -519,13 +519,13 @@
         .discord-card {
             display: flex;
             align-items: center;
-            padding: 0.5rem;
+            padding: 0.75rem;
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
             border: 2px solid transparent;
             transition: border 0.3s ease;
-            height: 80px;
+            height: 95px; /* Increased height for better spacing */
             position: relative;
             width: 100%;
             box-sizing: border-box;
@@ -536,38 +536,36 @@
         }
 
         .avatar {
-            width: 48px;
-            height: 48px;
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 50%;
-            margin-left: 0.5rem;
             flex-shrink: 0;
+            margin-right: 0.75rem;
         }
 
         .discord-info {
-            margin-left: 0.5rem;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center vertically */
+            gap: 0.3rem;
             min-width: 0;
-            height: 100%; /* Ensure it takes full height */
-            overflow: hidden; /* Prevent overflow */
+            height: 100%;
+            justify-content: center;
         }
 
         .user-line {
             display: flex;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.5rem;
             white-space: nowrap;
             overflow: hidden;
-            margin-bottom: 0.2rem; /* Reduced space to fit everything */
-            max-width: 100%; /* Ensure it doesn't overflow */
+            margin-bottom: 0.3rem;
         }
 
         .status-dot {
             display: inline-block;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             flex-shrink: 0;
         }
@@ -580,30 +578,28 @@
         .username {
             font-weight: bold;
             color: var(--text-light);
-            font-size: 0.8rem;
+            font-size: 1rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: calc(100% - 60px); /* Give space for badges */
         }
 
         .badges {
             display: flex;
-            gap: 0.3rem;
+            gap: 0.4rem;
             align-items: center;
             flex-shrink: 0;
-            margin-left: auto; /* Push to the right */
         }
 
         .badge {
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
         }
 
         .last-seen {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             color: #aaa;
-            margin-top: 0.1rem;
+            margin-top: 0.2rem;
         }
 
         .activity-container {
@@ -620,40 +616,61 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.1rem; /* Reduced gap to fit everything */
-            width: calc(100% - 50px); /* Account for album art */
+            gap: 0.1rem;
+            width: 230px; /* Increased width for longer text */
+            position: relative;
         }
 
-        .activity-text {
+        #activity .activity-text-wrapper .activity-text {
             color: var(--text-light);
             margin: 0;
-            font-size: 0.5rem; /* Smaller font size */
-            line-height: 1; /* Reduced line height to fit */
-            display: inline-block;
+            font-size: 0.4rem !important; /* Reduced size with high specificity */
+            line-height: 0.8; /* Reduced line-height to minimize vertical space */
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: inline-block;
         }
 
-        .artist-text {
+        #activity .activity-text-wrapper .artist-text {
             color: var(--subtext-grey);
             margin: 0;
-            font-size: 0.4rem; /* Even smaller for "by" text */
-            line-height: 1;
-            display: inline-block;
+            font-size: 0.35rem !important; /* Reduced size with high specificity */
+            line-height: 0.8; /* Reduced line-height to minimize vertical space */
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: inline-block;
         }
 
         .activity-text.scrolling,
         .artist-text.scrolling {
+            display: inline-block;
             animation: scroll 15s linear infinite;
+            position: relative;
         }
 
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            45% {
+                transform: translateX(-100%);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            51% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            55% {
+                transform: translateX(100%);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         .album-art {
@@ -661,14 +678,13 @@
             height: 40px;
             border-radius: 5px;
             position: absolute;
-            right: 0.5rem;
+            right: 0.75rem;
             top: 50%;
-            transform: translateY(-50%); /* Perfect vertical centering */
+            transform: translateY(-50%);
             margin: 0;
             flex-shrink: 0;
         }
 
-        /* Adjust hero-content to ensure no overlap */
         .hero-content {
             display: flex;
             flex-direction: column;
@@ -680,48 +696,43 @@
             padding: 0;
         }
 
-        /* Mobile adjustments */
         @media (max-width: 768px) {
             .discord-card {
-                height: 70px;
+                height: 85px;
+                padding: 0.5rem;
             }
 
             .avatar {
-                width: 40px;
-                height: 40px;
-                margin-left: 0.3rem;
-            }
-
-            .discord-info {
-                margin-left: 0.3rem;
+                width: 2rem;
+                height: 2rem;
+                margin-right: 0.5rem;
             }
 
             .username {
-                font-size: 0.7rem;
-                max-width: calc(100% - 50px); /* Adjust for mobile */
+                font-size: 0.9rem;
             }
 
             .badge {
-                width: 10px;
-                height: 10px;
+                width: 14px;
+                height: 14px;
             }
 
-            .activity-text {
-                font-size: 0.45rem; /* Even smaller on mobile */
+            #activity .activity-text-wrapper .activity-text {
+                font-size: 0.35rem !important;
             }
 
-            .artist-text {
-                font-size: 0.35rem; /* Even smaller on mobile */
+            #activity .activity-text-wrapper .artist-text {
+                font-size: 0.3rem !important;
             }
 
             .activity-text-wrapper {
-                width: calc(100% - 45px); /* Adjust for mobile */
+                width: 190px;
             }
 
             .album-art {
                 width: 36px;
                 height: 36px;
-                right: 0.3rem;
+                right: 0.5rem;
             }
         }
     </style>
@@ -749,10 +760,9 @@
                 <h1>AntonP29</h1>
                 <p>HTML/CSS | Javascript | iOS Sideloading</p>
                 
-                <!-- Updated Discord Embed -->
                 <section id="discord-embed" class="acrylic">
                     <div id="discord-profile" class="discord-card">
-                        <img id="avatar" src="/placeholder.svg" alt="Avatar" class="avatar">
+                        <img id="avatar" src="" alt="Avatar" class="avatar">
                         <div class="discord-info">
                             <div class="user-line">
                                 <span id="status" class="status-dot"></span>
@@ -806,7 +816,6 @@
         </footer>
     </div>
 
-    <!-- Popup Overlay and Form -->
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup">
             <h2>Contacting AntonP29!</h2>
@@ -822,7 +831,6 @@
         </div>
     </div>
 
-    <!-- Gradient and Main Logic Script -->
     <script>
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
@@ -1341,14 +1349,10 @@
                 requestAnimationFrame(startProgress);
             }
 
-            // Initial Discord fetch
             fetchDiscordPresence();
         });
-    </script>
 
-    <!-- Updated Discord Embed Script -->
-    <script>
-        let isFirstLoad = true; // Track if it's the first load
+        let isFirstLoad = true;
 
         async function fetchDiscordPresence() {
             try {
@@ -1360,28 +1364,24 @@
                     return;
                 }
 
-                // Avatar
                 const avatar = document.getElementById('avatar');
                 avatar.src = data.avatarURL;
                 if (isFirstLoad) {
                     avatar.classList.add('animate-on-load');
                 }
 
-                // Username
                 const usernameElement = document.getElementById('username');
                 usernameElement.textContent = data.username;
                 if (isFirstLoad) {
                     usernameElement.classList.add('animate-on-load');
                 }
 
-                // Status
                 const statusDot = document.getElementById('status');
                 statusDot.className = `status-dot ${data.status}`;
                 if (isFirstLoad) {
                     statusDot.classList.add('animate-on-load');
                 }
 
-                // Badges
                 const badgesDiv = document.getElementById('badges');
                 badgesDiv.innerHTML = '';
                 if (data.badges && data.badges.length > 0) {
@@ -1397,7 +1397,6 @@
                     });
                 }
 
-                // Last Seen (only show if offline)
                 const lastSeen = document.getElementById('last-seen');
                 if (data.status === 'offline') {
                     lastSeen.textContent = `last seen ${data.lastSeen}`;
@@ -1409,27 +1408,26 @@
                     lastSeen.style.display = 'none';
                 }
 
-                // Activity
                 const activityWrapper = document.getElementById('activity-text-wrapper');
                 const activityDiv = document.getElementById('activity');
-                activityWrapper.innerHTML = ''; // Clear previous content
-                activityDiv.innerHTML = ''; // Clear previous content
-                activityDiv.appendChild(activityWrapper); // Re-append the wrapper
+                activityWrapper.innerHTML = '';
+                activityDiv.innerHTML = '';
+                activityDiv.appendChild(activityWrapper);
 
                 if (data.activities && data.activities.length > 0 && data.status !== 'offline') {
+                    let activityDisplayed = false;
                     data.activities.forEach(activity => {
-                        if (activity.name === 'Spotify' && activity.type === 2) {
+                        if (activity.name === 'Spotify' && activity.type === 2 && !activityDisplayed) {
                             const activityText = document.createElement('p');
                             activityText.className = 'activity-text';
-                            activityText.textContent = `Listening to: ${activity.details}`;
+                            activityText.textContent = `Listening to: ${activity.details || 'Unknown Song'}`;
                             activityWrapper.appendChild(activityText);
 
                             const artistText = document.createElement('p');
                             artistText.className = 'artist-text';
-                            artistText.textContent = `by ${activity.state}`;
+                            artistText.textContent = `by ${activity.state || 'Unknown Artist'}`;
                             activityWrapper.appendChild(artistText);
 
-                            // Check if text overflows and apply scrolling
                             requestAnimationFrame(() => {
                                 if (activityText.scrollWidth > activityWrapper.clientWidth) {
                                     activityText.classList.add('scrolling');
@@ -1449,18 +1447,19 @@
                                 }
                                 activityDiv.appendChild(albumArt);
                             }
-                        } else {
+                            activityDisplayed = true;
+                        } else if (!activityDisplayed) {
                             const activityText = document.createElement('p');
                             activityText.className = 'activity-text';
                             activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
                             activityWrapper.appendChild(activityText);
 
-                            // Check if text overflows and apply scrolling
                             requestAnimationFrame(() => {
                                 if (activityText.scrollWidth > activityWrapper.clientWidth) {
                                     activityText.classList.add('scrolling');
                                 }
                             });
+                            activityDisplayed = true;
                         }
                     });
                 } else if (data.status !== 'offline') {
@@ -1469,7 +1468,6 @@
                     activityText.textContent = 'Not doing anything currently';
                     activityWrapper.appendChild(activityText);
 
-                    // Check if text overflows and apply scrolling
                     requestAnimationFrame(() => {
                         if (activityText.scrollWidth > activityWrapper.clientWidth) {
                             activityText.classList.add('scrolling');
@@ -1477,7 +1475,6 @@
                     });
                 }
 
-                // After first load, disable animations for updates
                 isFirstLoad = false;
             } catch (error) {
                 console.error('Error fetching Discord presence:', error);
@@ -1485,7 +1482,6 @@
             }
         }
 
-        // Function to map badge names to image URLs
         function getBadgeUrl(badgeName) {
             const badgeUrls = {
                 'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
@@ -1498,10 +1494,9 @@
                 'originally_known_as': 'https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png',
                 'completed_quest': 'https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png'
             };
-            return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png'; // Fallback
+            return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png';
         }
 
-        // Add animation class for first load only
         const styleSheet = document.createElement('style');
         styleSheet.innerHTML = `
             .animate-on-load {
@@ -1513,5 +1508,6 @@
         setInterval(fetchDiscordPresence, 30000);
     </script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926a72e9bc3e6740',t:'MTc0MzAzMTk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aa2f95a6cbfb3',t:'MTc0MzAzMzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
