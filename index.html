@@ -525,20 +525,21 @@
         .discord-card {
             display: flex;
             align-items: center;
-            padding: 0.75rem;
+            padding: 0.75rem 0.75rem 0 !important; /* Removed bottom padding */
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
-            border: 2px solid transparent;
+            border: 2px solid transparent !important; /* No bottom border */
             transition: border 0.3s ease;
-            height: 95px;
+            height: auto !important; /* Dynamic height */
+            min-height: 95px !important; /* Minimum to maintain structure */
             position: relative;
             width: 100%;
             box-sizing: border-box;
         }
 
         .discord-card:hover {
-            border: 2px solid var(--border-grey);
+            border: 2px solid var(--border-grey) !important;
         }
 
         .avatar-container {
@@ -560,8 +561,8 @@
             height: 14px !important;
             border-radius: 50% !important;
             position: absolute !important;
-            bottom: 8px !important; /* Moved further up */
-            right: 8px !important; /* Moved further left */
+            bottom: 8px !important;
+            right: 6px !important; /* Moved further left */
             z-index: 2 !important;
             border: 2px solid var(--bg-dark) !important;
         }
@@ -584,7 +585,7 @@
         .user-line {
             display: flex;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.5rem; /* Increased space between username and badges */
             white-space: nowrap;
             overflow: hidden;
             margin-bottom: 0.1rem;
@@ -601,7 +602,7 @@
 
         .badges {
             display: flex;
-            gap: 0.25rem;
+            gap: 0.25rem; /* Space between badges unchanged */
             align-items: center;
             flex-shrink: 0;
         }
@@ -637,7 +638,7 @@
         }
 
         .activity-text {
-            color: #ffffff !important; /* Hardcoded white */
+            color: #ffffff !important;
             margin: 0 !important;
             font-size: 1.0rem !important;
             line-height: 1.2 !important;
@@ -648,7 +649,7 @@
         }
 
         .artist-text {
-            color: #ffffff !important; /* Hardcoded white */
+            color: #666 !important; /* Darker grey */
             margin: 0 !important;
             font-size: 0.7rem !important;
             line-height: 0.9 !important;
@@ -661,7 +662,7 @@
         .activity-text.scrolling,
         .artist-text.scrolling {
             display: inline-block !important;
-            animation: scroll 20s linear infinite !important;
+            animation: scroll 30s linear infinite !important; /* Slower scrolling */
             position: relative !important;
             white-space: nowrap !important;
         }
@@ -670,11 +671,8 @@
             0% {
                 transform: translateX(0);
             }
-            45% {
-                transform: translateX(calc(-100% - 40px));
-            }
             100% {
-                transform: translateX(calc(-100% - 40px));
+                transform: translateX(-100%);
             }
         }
 
@@ -685,13 +683,12 @@
         }
 
         .album-art {
-            width: 48px !important; /* Increased size */
+            width: 48px !important;
             height: 48px !important;
             border-radius: 5px !important;
             position: absolute !important;
             right: 0.25rem !important;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
+            top: 10px !important; /* Moved way up */
             margin-bottom: 0 !important;
             flex-shrink: 0 !important;
         }
@@ -703,8 +700,8 @@
 
         @media (max-width: 768px) {
             .discord-card {
-                height: 85px;
-                padding: 0.5rem;
+                min-height: 85px !important; /* Adjusted for mobile */
+                padding: 0.5rem 0.5rem 0 !important; /* Removed bottom padding */
             }
 
             .avatar {
@@ -716,8 +713,8 @@
             .status-dot {
                 width: 10px !important;
                 height: 10px !important;
-                right: 6px !important; /* Moved further left */
-                bottom: 6px !important; /* Moved further up */
+                right: 4px !important; /* Moved further left */
+                bottom: 6px !important;
             }
 
             .username {
@@ -743,11 +740,10 @@
             }
 
             .album-art {
-                width: 42px !important; /* Increased size for mobile */
+                width: 42px !important;
                 height: 42px !important;
                 right: 0.5rem !important;
-                top: 50% !important;
-                transform: translateY(-50%) !important;
+                top: 8px !important; /* Moved way up for mobile */
                 margin-bottom: 0 !important;
             }
         }
@@ -1440,7 +1436,7 @@
                             activityText.className = 'activity-text';
                             activityText.textContent = `Listening to: ${activity.details || 'Unknown Song'}`;
                             activityText.setAttribute('data-text', `Listening to: ${activity.details || 'Unknown Song'}`);
-                            activityText.style.color = '#ffffff'; // Inline force visibility
+                            activityText.style.color = '#ffffff';
                             activityText.style.opacity = '1';
                             activityText.style.visibility = 'visible';
                             activityWrapper.appendChild(activityText);
@@ -1449,9 +1445,12 @@
                             artistText.className = 'artist-text';
                             artistText.textContent = `by ${activity.state || 'Unknown Artist'}`;
                             artistText.setAttribute('data-text', `by ${activity.state || 'Unknown Artist'}`);
-                            artistText.style.color = '#ffffff'; // Inline force visibility
+                            artistText.style.color = '#666';
                             artistText.style.opacity = '1';
                             artistText.style.visibility = 'visible';
+                            if (isFirstLoad) {
+                                artistText.classList.add('animate-on-load'); // Only on first load
+                            }
                             activityWrapper.appendChild(artistText);
 
                             requestAnimationFrame(() => {
@@ -1479,7 +1478,7 @@
                             activityText.className = 'activity-text';
                             activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
                             activityText.setAttribute('data-text', `${activity.name}: ${activity.details || activity.state || 'No details'}`);
-                            activityText.style.color = '#ffffff'; // Inline force visibility
+                            activityText.style.color = '#ffffff';
                             activityText.style.opacity = '1';
                             activityText.style.visibility = 'visible';
                             activityWrapper.appendChild(activityText);
@@ -1497,7 +1496,7 @@
                     activityText.className = 'activity-text';
                     activityText.textContent = 'Not doing anything currently';
                     activityText.setAttribute('data-text', 'Not doing anything currently');
-                    activityText.style.color = '#ffffff'; // Inline force visibility
+                    activityText.style.color = '#ffffff';
                     activityText.style.opacity = '1';
                     activityText.style.visibility = 'visible';
                     activityWrapper.appendChild(activityText);
