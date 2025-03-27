@@ -525,20 +525,21 @@
         .discord-card {
             display: flex;
             align-items: center;
-            padding: 0.75rem;
+            padding: 0.5rem 0.75rem 0 !important;
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
-            border: 2px solid transparent;
+            border: 2px solid transparent !important;
             transition: border 0.3s ease;
-            height: 95px;
+            height: auto !important;
+            min-height: 95px !important;
             position: relative;
             width: 100%;
             box-sizing: border-box;
         }
 
         .discord-card:hover {
-            border: 2px solid var(--border-grey);
+            border: 2px solid var(--border-grey) !important;
         }
 
         .avatar-container {
@@ -560,8 +561,8 @@
             height: 14px !important;
             border-radius: 50% !important;
             position: absolute !important;
-            bottom: 4px !important; /* Adjusted to overlap */
-            right: 4px !important; /* Adjusted to overlap */
+            bottom: 8px !important;
+            right: 8px !important;
             z-index: 2 !important;
             border: 2px solid var(--bg-dark) !important;
         }
@@ -579,12 +580,14 @@
             min-width: 0;
             height: 100%;
             justify-content: center;
+            position: relative;
+            top: -2px;
         }
 
         .user-line {
             display: flex;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.5rem;
             white-space: nowrap;
             overflow: hidden;
             margin-bottom: 0.1rem;
@@ -623,7 +626,9 @@
             gap: 0.5rem;
             max-width: 100%;
             position: relative;
-            overflow: hidden;
+            overflow: visible !important; /* Allow album art to extend */
+            min-height: 60px;
+            margin-top: -2px;
         }
 
         .activity-text-wrapper {
@@ -631,80 +636,80 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem !important;
-            width: 180px !important;
+            gap: 0.3rem !important;
+            width: 120px !important; /* Reduced width */
             position: relative;
+            top: -4px;
+            z-index: 4 !important; /* Ensure text stays above album art */
         }
 
-        .activity-text-wrapper .activity-text {
-            color: var(--text-light) !important;
-            margin: 0;
+        .activity-text {
+            color: #ffffff !important;
+            margin: 0 !important;
             font-size: 1.0rem !important;
-            line-height: 1.2;
-            white-space: nowrap;
-            display: inline-block;
+            line-height: 1.2 !important;
+            white-space: nowrap !important;
+            display: inline-block !important;
             visibility: visible !important;
-            animation: none !important;
+            opacity: 1 !important;
         }
 
-        .activity-text-wrapper .artist-text {
-            color: var(--subtext-grey) !important;
-            margin: 0;
+        .artist-text {
+            color: #666 !important;
+            margin: 0 !important;
             font-size: 0.7rem !important;
-            line-height: 0.9;
-            white-space: nowrap;
-            display: inline-block;
+            line-height: 0.9 !important;
+            white-space: nowrap !important;
+            display: inline-block !important;
             visibility: visible !important;
-            animation: none !important;
+            opacity: 1 !important;
         }
 
         .activity-text.scrolling,
         .artist-text.scrolling {
-            display: inline-block;
-            animation: scroll 20s linear infinite !important;
-            position: relative;
-            white-space: nowrap;
+            display: inline-block !important;
+            animation: scroll 30s linear infinite !important;
+            position: relative !important;
+            white-space: nowrap !important;
         }
 
         @keyframes scroll {
             0% {
                 transform: translateX(0);
             }
-            45% {
-                transform: translateX(calc(-100% - 40px));
-            }
             100% {
-                transform: translateX(calc(-100% - 40px));
+                transform: translateX(-100%);
             }
         }
 
         .activity-text.scrolling::after,
         .artist-text.scrolling::after {
-            content: "     " attr(data-text);
-            display: inline;
+            content: "     " attr(data-text) !important;
+            display: inline !important;
         }
 
-        .album-art {
-            width: 40px;
-            height: 40px;
-            border-radius: 5px;
-            position: absolute;
-            right: 0.25rem;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-            margin: 0;
-            flex-shrink: 0;
+        .activity-container .album-art {
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 5px !important;
+            position: absolute !important;
+            right: 0.25rem !important;
+            top: -15px !important; /* Move up */
+            margin: 0 !important;
+            flex-shrink: 0 !important;
+            z-index: 3 !important; /* Below text */
+            outline: 1px solid red !important; /* Debug */
         }
 
         #discord-embed {
             margin-bottom: 0 !important;
-            padding: 0;
+            padding: 0 !important;
         }
 
         @media (max-width: 768px) {
             .discord-card {
-                height: 85px;
-                padding: 0.5rem;
+                min-height: 85px !important;
+                padding: 0.3rem 0.5rem 0 !important;
             }
 
             .avatar {
@@ -716,8 +721,8 @@
             .status-dot {
                 width: 10px !important;
                 height: 10px !important;
-                right: 2px !important; /* Adjusted for mobile overlap */
-                bottom: 2px !important;
+                right: 6px !important;
+                bottom: 6px !important;
             }
 
             .username {
@@ -729,25 +734,38 @@
                 height: 14px;
             }
 
-            .activity-text-wrapper .activity-text {
+            .activity-text {
                 font-size: 1.0rem !important;
             }
 
-            .activity-text-wrapper .artist-text {
+            .artist-text {
                 font-size: 0.7rem !important;
             }
 
             .activity-text-wrapper {
-                width: 150px !important;
-                gap: 0.4rem !important;
+                width: 100px !important; /* Reduced width */
+                gap: 0.2rem !important;
+                top: -2px;
+                z-index: 4 !important; /* Ensure text stays above album art */
             }
 
-            .album-art {
-                width: 36px;
-                height: 36px;
-                right: 0.5rem;
-                top: 50% !important;
-                transform: translateY(-50%) !important;
+            .discord-info {
+                top: -1px;
+            }
+
+            .activity-container {
+                margin-top: -1px;
+                min-height: 50px;
+                overflow: visible !important;
+            }
+
+            .activity-container .album-art {
+                width: 42px !important;
+                height: 42px !important;
+                right: 0.5rem !important;
+                top: -15px !important; /* Move up */
+                margin: 0 !important;
+                outline: 1px solid red !important; /* Debug */
             }
         }
     </style>
@@ -1338,7 +1356,7 @@
                     e.preventDefault();
                     alert('Please fill in all fields (Name, Email, and Message).');
                 } else {
-                    setTimeout (() => {
+                    setTimeout(() => {
                         popupOverlay.style.display = 'none';
                         document.body.style.overflow = 'auto';
                         document.querySelector('textarea[name="message"]').value = '';
@@ -1439,12 +1457,21 @@
                             activityText.className = 'activity-text';
                             activityText.textContent = `Listening to: ${activity.details || 'Unknown Song'}`;
                             activityText.setAttribute('data-text', `Listening to: ${activity.details || 'Unknown Song'}`);
+                            activityText.style.color = '#ffffff';
+                            activityText.style.opacity = '1';
+                            activityText.style.visibility = 'visible';
                             activityWrapper.appendChild(activityText);
 
                             const artistText = document.createElement('p');
                             artistText.className = 'artist-text';
                             artistText.textContent = `by ${activity.state || 'Unknown Artist'}`;
                             artistText.setAttribute('data-text', `by ${activity.state || 'Unknown Artist'}`);
+                            artistText.style.color = '#666';
+                            artistText.style.opacity = '1';
+                            artistText.style.visibility = 'visible';
+                            if (isFirstLoad) {
+                                artistText.classList.add('animate-on-load');
+                            }
                             activityWrapper.appendChild(artistText);
 
                             requestAnimationFrame(() => {
@@ -1472,6 +1499,9 @@
                             activityText.className = 'activity-text';
                             activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
                             activityText.setAttribute('data-text', `${activity.name}: ${activity.details || activity.state || 'No details'}`);
+                            activityText.style.color = '#ffffff';
+                            activityText.style.opacity = '1';
+                            activityText.style.visibility = 'visible';
                             activityWrapper.appendChild(activityText);
 
                             requestAnimationFrame(() => {
@@ -1487,6 +1517,9 @@
                     activityText.className = 'activity-text';
                     activityText.textContent = 'Not doing anything currently';
                     activityText.setAttribute('data-text', 'Not doing anything currently');
+                    activityText.style.color = '#ffffff';
+                    activityText.style.opacity = '1';
+                    activityText.style.visibility = 'visible';
                     activityWrapper.appendChild(activityText);
 
                     requestAnimationFrame(() => {
