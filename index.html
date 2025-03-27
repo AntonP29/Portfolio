@@ -560,8 +560,8 @@
             height: 14px !important;
             border-radius: 50% !important;
             position: absolute !important;
-            bottom: 4px !important;
-            right: 4px !important;
+            bottom: 4px !important; /* Adjusted to overlap */
+            right: 4px !important; /* Adjusted to overlap */
             z-index: 2 !important;
             border: 2px solid var(--bg-dark) !important;
         }
@@ -631,8 +631,8 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.3rem !important;
-            max-width: 180px; /* Adjusted to ensure visibility */
+            gap: 0.5rem !important;
+            width: 180px !important;
             position: relative;
         }
 
@@ -689,12 +689,11 @@
             height: 40px;
             border-radius: 5px;
             position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
+            right: 0.25rem;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
             margin: 0;
             flex-shrink: 0;
-            z-index: 1; /* Ensure it’s not under username */
         }
 
         #discord-embed {
@@ -717,7 +716,7 @@
             .status-dot {
                 width: 10px !important;
                 height: 10px !important;
-                right: 2px !important;
+                right: 2px !important; /* Adjusted for mobile overlap */
                 bottom: 2px !important;
             }
 
@@ -731,24 +730,24 @@
             }
 
             .activity-text-wrapper .activity-text {
-                font-size: 0.9rem !important;
+                font-size: 1.0rem !important;
             }
 
             .activity-text-wrapper .artist-text {
-                font-size: 0.65rem !important;
+                font-size: 0.7rem !important;
             }
 
             .activity-text-wrapper {
-                max-width: 150px; /* Adjusted for mobile */
-                gap: 0.2rem !important;
+                width: 150px !important;
+                gap: 0.4rem !important;
             }
 
             .album-art {
                 width: 36px;
                 height: 36px;
                 right: 0.5rem;
-                top: 50%;
-                transform: translateY(-50%);
+                top: 50% !important;
+                transform: translateY(-50%) !important;
             }
         }
     </style>
@@ -1339,7 +1338,7 @@
                     e.preventDefault();
                     alert('Please fill in all fields (Name, Email, and Message).');
                 } else {
-                    setTimeout(() => {
+                    setTimeout (() => {
                         popupOverlay.style.display = 'none';
                         document.body.style.overflow = 'auto';
                         document.querySelector('textarea[name="message"]').value = '';
