@@ -147,9 +147,9 @@
         .hero-content {
             max-width: 600px;
             padding: 2rem;
-            display: flex !important; /* Ensure flex display */
+            display: flex !important;
             flex-direction: column !important;
-            gap: 0.5rem !important; /* Reduced gap between "HTML/CSS | Javascript | iOS Sideloading" and Discord presence */
+            gap: 0.5rem !important;
         }
 
         .hero h1 {
@@ -167,7 +167,7 @@
         .hero p {
             font-size: 1.2rem;
             color: #aaa;
-            margin-bottom: 0 !important; /* Remove default margin to control spacing */
+            margin-bottom: 0 !important;
             animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
@@ -178,7 +178,7 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            margin-top: 0.5rem !important; /* Reduced space between Discord presence and buttons */
+            margin-top: 0.5rem !important;
         }
 
         .btn {
@@ -298,12 +298,12 @@
 
             .hero-content {
                 max-width: 100%;
-                gap: 0.3rem !important; /* Adjusted for mobile */
+                gap: 0.3rem !important;
             }
 
             .cta-buttons {
                 justify-content: center;
-                margin-top: 0.3rem !important; /* Adjusted for mobile */
+                margin-top: 0.3rem !important;
             }
         }
 
@@ -555,21 +555,21 @@
         }
 
         .status-dot {
-            display: block !important; /* Ensure it displays */
+            display: block !important;
             width: 14px !important;
             height: 14px !important;
             border-radius: 50% !important;
             position: absolute !important;
-            bottom: 0 !important;
-            right: 0.5rem !important; /* Adjusted to overlap avatar */
-            z-index: 1 !important;
-            border: 2px solid var(--bg-dark) !important; /* Add a border to make it stand out */
+            bottom: 4px !important; /* Adjusted to overlap */
+            right: 4px !important; /* Adjusted to overlap */
+            z-index: 2 !important;
+            border: 2px solid var(--bg-dark) !important;
         }
 
-        .status-dot.online { background-color: #43b581; }
-        .status-dot.idle { background-color: #faa61a; }
-        .status-dot.dnd { background-color: #f04747; }
-        .status-dot.offline { background-color: #747f8d; }
+        .status-dot.online { background-color: #43b581 !important; }
+        .status-dot.idle { background-color: #faa61a !important; }
+        .status-dot.dnd { background-color: #f04747 !important; }
+        .status-dot.offline { background-color: #747f8d !important; }
 
         .discord-info {
             flex: 1;
@@ -631,35 +631,37 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem !important; /* Increased vertical space between activity and artist text */
-            width: 180px !important; /* Reduced width to avoid overlap with album art */
+            gap: 0.5rem !important;
+            width: 180px !important;
             position: relative;
         }
 
-        #activity .activity-text-wrapper .activity-text {
-            color: var(--text-light);
+        .activity-text-wrapper .activity-text {
+            color: var(--text-light) !important;
             margin: 0;
             font-size: 1.0rem !important;
             line-height: 1.2;
             white-space: nowrap;
             display: inline-block;
-            animation: none !important; /* Prevent float-in animation on update */
+            visibility: visible !important;
+            animation: none !important;
         }
 
-        #activity .activity-text-wrapper .artist-text {
-            color: var(--subtext-grey);
+        .activity-text-wrapper .artist-text {
+            color: var(--subtext-grey) !important;
             margin: 0;
             font-size: 0.7rem !important;
             line-height: 0.9;
             white-space: nowrap;
             display: inline-block;
-            animation: none !important; /* Prevent float-in animation on update */
+            visibility: visible !important;
+            animation: none !important;
         }
 
         .activity-text.scrolling,
         .artist-text.scrolling {
             display: inline-block;
-            animation: scroll 20s linear infinite !important; /* Slower and continuous scrolling */
+            animation: scroll 20s linear infinite !important;
             position: relative;
             white-space: nowrap;
         }
@@ -669,17 +671,16 @@
                 transform: translateX(0);
             }
             45% {
-                transform: translateX(calc(-100% - 40px)); /* Adjusted for space between text */
+                transform: translateX(calc(-100% - 40px));
             }
             100% {
                 transform: translateX(calc(-100% - 40px));
             }
         }
 
-        /* Ensure the text repeats with a gap */
         .activity-text.scrolling::after,
         .artist-text.scrolling::after {
-            content: "     " attr(data-text); /* Add space and repeat the text */
+            content: "     " attr(data-text);
             display: inline;
         }
 
@@ -689,14 +690,14 @@
             border-radius: 5px;
             position: absolute;
             right: 0.25rem;
-            top: 50% !important; /* Center vertically */
-            transform: translateY(-50%) !important; /* Center vertically */
+            top: 50% !important;
+            transform: translateY(-50%) !important;
             margin: 0;
             flex-shrink: 0;
         }
 
         #discord-embed {
-            margin-bottom: 0 !important; /* Remove default margin to control spacing */
+            margin-bottom: 0 !important;
             padding: 0;
         }
 
@@ -715,7 +716,8 @@
             .status-dot {
                 width: 10px !important;
                 height: 10px !important;
-                right: 0.3rem !important;
+                right: 2px !important; /* Adjusted for mobile overlap */
+                bottom: 2px !important;
             }
 
             .username {
@@ -727,24 +729,24 @@
                 height: 14px;
             }
 
-            #activity .activity-text-wrapper .activity-text {
+            .activity-text-wrapper .activity-text {
                 font-size: 1.0rem !important;
             }
 
-            #activity .activity-text-wrapper .artist-text {
+            .activity-text-wrapper .artist-text {
                 font-size: 0.7rem !important;
             }
 
             .activity-text-wrapper {
-                width: 150px !important; /* Adjusted for mobile */
-                gap: 0.4rem !important; /* Adjusted for mobile */
+                width: 150px !important;
+                gap: 0.4rem !important;
             }
 
             .album-art {
                 width: 36px;
                 height: 36px;
                 right: 0.5rem;
-                top: 50% !important; /* Center vertically on mobile */
+                top: 50% !important;
                 transform: translateY(-50%) !important;
             }
         }
@@ -1336,7 +1338,7 @@
                     e.preventDefault();
                     alert('Please fill in all fields (Name, Email, and Message).');
                 } else {
-                    setTimeout(() => {
+                    setTimeout (() => {
                         popupOverlay.style.display = 'none';
                         document.body.style.overflow = 'auto';
                         document.querySelector('textarea[name="message"]').value = '';
@@ -1436,13 +1438,13 @@
                             const activityText = document.createElement('p');
                             activityText.className = 'activity-text';
                             activityText.textContent = `Listening to: ${activity.details || 'Unknown Song'}`;
-                            activityText.setAttribute('data-text', `Listening to: ${activity.details || 'Unknown Song'}`); // For scrolling repeat
+                            activityText.setAttribute('data-text', `Listening to: ${activity.details || 'Unknown Song'}`);
                             activityWrapper.appendChild(activityText);
 
                             const artistText = document.createElement('p');
                             artistText.className = 'artist-text';
                             artistText.textContent = `by ${activity.state || 'Unknown Artist'}`;
-                            artistText.setAttribute('data-text', `by ${activity.state || 'Unknown Artist'}`); // For scrolling repeat
+                            artistText.setAttribute('data-text', `by ${activity.state || 'Unknown Artist'}`);
                             activityWrapper.appendChild(artistText);
 
                             requestAnimationFrame(() => {
@@ -1469,7 +1471,7 @@
                             const activityText = document.createElement('p');
                             activityText.className = 'activity-text';
                             activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
-                            activityText.setAttribute('data-text', `${activity.name}: ${activity.details || activity.state || 'No details'}`); // For scrolling repeat
+                            activityText.setAttribute('data-text', `${activity.name}: ${activity.details || activity.state || 'No details'}`);
                             activityWrapper.appendChild(activityText);
 
                             requestAnimationFrame(() => {
@@ -1484,7 +1486,7 @@
                     const activityText = document.createElement('p');
                     activityText.className = 'activity-text';
                     activityText.textContent = 'Not doing anything currently';
-                    activityText.setAttribute('data-text', 'Not doing anything currently'); // For scrolling repeat
+                    activityText.setAttribute('data-text', 'Not doing anything currently');
                     activityWrapper.appendChild(activityText);
 
                     requestAnimationFrame(() => {
@@ -1528,5 +1530,5 @@
     </script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926a72e9bc3e6740',t:'MTc0MzAzMTk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aa2f95a6cbfb3',t:'MTc0MzAzMzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aed56dbcfb043',t:'MTc0MzAzNjk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aed56dbcfb043',t:'MTc0MzAzNjk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926b320bb866bf72',t:'MTc0MzAzOTc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
