@@ -536,30 +536,29 @@
         }
 
         .avatar {
-            width: 48px;
-            height: 48px;
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 50%;
-            margin-left: 0.5rem;
             flex-shrink: 0;
         }
 
         .discord-info {
-            margin-left: 0.5rem;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center vertically */
+            gap: 0.25rem;
             min-width: 0;
-            height: 100%; /* Ensure it takes full height */
+            height: 100%;
+            justify-content: center;
         }
 
         .user-line {
             display: flex;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.3rem;
             white-space: nowrap;
             overflow: hidden;
-            margin-bottom: 0.2rem; /* Reduced space to fit everything */
+            margin-bottom: 0.2rem;
         }
 
         .status-dot {
@@ -578,7 +577,7 @@
         .username {
             font-weight: bold;
             color: var(--text-light);
-            font-size: 0.8rem; /* Reduced to fit better */
+            font-size: 0.9rem; /* Increased slightly from 0.8rem */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -592,12 +591,12 @@
         }
 
         .badge {
-            width: 12px; /* Reduced size to fit better */
-            height: 12px;
+            width: 14px; /* Increased slightly from 12px */
+            height: 14px;
         }
 
         .last-seen {
-            font-size: 0.5rem; /* Reduced to fit better */
+            font-size: 0.5rem;
             color: #aaa;
             margin-top: 0.1rem;
         }
@@ -616,39 +615,62 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.1rem; /* Reduced gap to fit everything */
+            gap: 0.1rem;
             width: 200px;
+            position: relative;
         }
 
         .activity-text {
             color: var(--text-light);
             margin: 0;
-            font-size: 0.55rem; /* Significantly reduced to fit */
-            line-height: 1; /* Reduced line height to fit */
-            display: inline-block;
+            font-size: 0.5rem; /* Reduced further from 0.55rem */
+            line-height: 1;
             white-space: nowrap;
-        }
-
-        .activity-text.scrolling {
-            animation: scroll 15s linear infinite;
+            display: inline-block;
         }
 
         .artist-text {
             color: var(--subtext-grey);
             margin: 0;
-            font-size: 0.45rem; /* Reduced to fit */
+            font-size: 0.4rem; /* Reduced further from 0.45rem */
             line-height: 1;
-            display: inline-block;
             white-space: nowrap;
+            display: inline-block;
         }
 
+        /* Updated scrolling animation */
+        .activity-text.scrolling,
         .artist-text.scrolling {
+            display: inline-block;
             animation: scroll 15s linear infinite;
+            position: relative;
         }
 
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            45% {
+                transform: translateX(-100%);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            51% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            55% {
+                transform: translateX(100%);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         .album-art {
@@ -658,7 +680,7 @@
             position: absolute;
             right: 0.5rem;
             top: 50%;
-            transform: translateY(-50%); /* Ensure proper centering */
+            transform: translateY(-50%);
             margin: 0;
             flex-shrink: 0;
         }
@@ -684,28 +706,23 @@
             .avatar {
                 width: 40px;
                 height: 40px;
-                margin-left: 0.3rem;
-            }
-
-            .discord-info {
-                margin-left: 0.3rem;
             }
 
             .username {
-                font-size: 0.7rem; /* Further reduced for mobile */
+                font-size: 0.8rem;
             }
 
             .badge {
-                width: 10px; /* Further reduced for mobile */
-                height: 10px;
+                width: 12px;
+                height: 12px;
             }
 
             .activity-text {
-                font-size: 0.5rem; /* Further reduced for mobile */
+                font-size: 0.45rem;
             }
 
             .artist-text {
-                font-size: 0.4rem; /* Further reduced for mobile */
+                font-size: 0.35rem;
             }
 
             .activity-text-wrapper {
@@ -1338,11 +1355,9 @@
             // Initial Discord fetch
             fetchDiscordPresence();
         });
-    </script>
 
-    <!-- Updated Discord Embed Script -->
-    <script>
-        let isFirstLoad = true; // Track if it's the first load
+        // Updated Discord Embed Script
+        let isFirstLoad = true;
 
         async function fetchDiscordPresence() {
             try {
@@ -1406,9 +1421,9 @@
                 // Activity
                 const activityWrapper = document.getElementById('activity-text-wrapper');
                 const activityDiv = document.getElementById('activity');
-                activityWrapper.innerHTML = ''; // Clear previous content
-                activityDiv.innerHTML = ''; // Clear previous content
-                activityDiv.appendChild(activityWrapper); // Re-append the wrapper
+                activityWrapper.innerHTML = '';
+                activityDiv.innerHTML = '';
+                activityDiv.appendChild(activityWrapper);
 
                 if (data.activities && data.activities.length > 0 && data.status !== 'offline') {
                     data.activities.forEach(activity => {
@@ -1423,7 +1438,7 @@
                             artistText.textContent = `by ${activity.state}`;
                             activityWrapper.appendChild(artistText);
 
-                            // Check if text overflows and apply scrolling
+                            // Check for scrolling
                             requestAnimationFrame(() => {
                                 if (activityText.scrollWidth > activityWrapper.clientWidth) {
                                     activityText.classList.add('scrolling');
@@ -1449,7 +1464,6 @@
                             activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
                             activityWrapper.appendChild(activityText);
 
-                            // Check if text overflows and apply scrolling
                             requestAnimationFrame(() => {
                                 if (activityText.scrollWidth > activityWrapper.clientWidth) {
                                     activityText.classList.add('scrolling');
@@ -1463,7 +1477,6 @@
                     activityText.textContent = 'Not doing anything currently';
                     activityWrapper.appendChild(activityText);
 
-                    // Check if text overflows and apply scrolling
                     requestAnimationFrame(() => {
                         if (activityText.scrollWidth > activityWrapper.clientWidth) {
                             activityText.classList.add('scrolling');
@@ -1471,7 +1484,6 @@
                     });
                 }
 
-                // After first load, disable animations for updates
                 isFirstLoad = false;
             } catch (error) {
                 console.error('Error fetching Discord presence:', error);
@@ -1479,7 +1491,6 @@
             }
         }
 
-        // Function to map badge names to image URLs
         function getBadgeUrl(badgeName) {
             const badgeUrls = {
                 'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
@@ -1492,7 +1503,7 @@
                 'originally_known_as': 'https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png',
                 'completed_quest': 'https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png'
             };
-            return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png'; // Fallback
+            return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png';
         }
 
         // Add animation class for first load only
@@ -1507,5 +1518,6 @@
         setInterval(fetchDiscordPresence, 30000);
     </script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926a72e9bc3e6740',t:'MTc0MzAzMTk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aa2f95a6cbfb3',t:'MTc0MzAzMzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
