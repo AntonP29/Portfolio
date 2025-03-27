@@ -588,7 +588,6 @@
             white-space: nowrap;
             overflow: hidden;
             margin-bottom: 0.1rem;
-            margin-top: 0.2rem; /* Moved username and badges down slightly */
         }
 
         .username {
@@ -632,8 +631,8 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem !important;
-            width: 160px !important; /* Reduced width to prevent overlap with album art */
+            gap: 0.3rem !important;
+            max-width: 180px; /* Adjusted to ensure visibility */
             position: relative;
         }
 
@@ -690,12 +689,12 @@
             height: 40px;
             border-radius: 5px;
             position: absolute;
-            right: 0. Sermon25rem;
-            top: 50% !important;
-            transform: translateY(-40%) !important; /* Moved slightly down from center */
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
             margin: 0;
             flex-shrink: 0;
-            border: 2px solid transparent !important; /* Explicitly no red border */
+            z-index: 1; /* Ensure it’s not under username */
         }
 
         #discord-embed {
@@ -732,25 +731,24 @@
             }
 
             .activity-text-wrapper .activity-text {
-                font-size: 1.0rem !important;
+                font-size: 0.9rem !important;
             }
 
             .activity-text-wrapper .artist-text {
-                font-size: 0.7rem !important;
+                font-size: 0.65rem !important;
             }
 
             .activity-text-wrapper {
-                width: 140px !important; /* Adjusted for mobile */
-                gap: 0.4rem !important;
+                max-width: 150px; /* Adjusted for mobile */
+                gap: 0.2rem !important;
             }
 
             .album-art {
                 width: 36px;
                 height: 36px;
                 right: 0.5rem;
-                top: 50% !important;
-                transform: translateY(-40%) !important; /* Moved slightly down for mobile */
-                border: 2px solid transparent !important;
+                top: 50%;
+                transform: translateY(-50%);
             }
         }
     </style>
