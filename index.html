@@ -560,8 +560,8 @@
             height: 14px !important;
             border-radius: 50% !important;
             position: absolute !important;
-            bottom: 6px !important; /* Moved up slightly */
-            right: 6px !important; /* Moved left slightly */
+            bottom: 8px !important; /* Moved further up */
+            right: 8px !important; /* Moved further left */
             z-index: 2 !important;
             border: 2px solid var(--bg-dark) !important;
         }
@@ -637,25 +637,25 @@
         }
 
         .activity-text {
-            color: var(--text-light) !important;
+            color: #ffffff !important; /* Hardcoded white */
             margin: 0 !important;
             font-size: 1.0rem !important;
             line-height: 1.2 !important;
             white-space: nowrap !important;
             display: inline-block !important;
             visibility: visible !important;
-            animation: none !important;
+            opacity: 1 !important;
         }
 
         .artist-text {
-            color: var(--subtext-grey) !important;
+            color: #ffffff !important; /* Hardcoded white */
             margin: 0 !important;
             font-size: 0.7rem !important;
             line-height: 0.9 !important;
             white-space: nowrap !important;
             display: inline-block !important;
             visibility: visible !important;
-            animation: none !important;
+            opacity: 1 !important;
         }
 
         .activity-text.scrolling,
@@ -685,15 +685,14 @@
         }
 
         .album-art {
-            width: 40px !important;
-            height: 40px !important;
+            width: 48px !important; /* Increased size */
+            height: 48px !important;
             border-radius: 5px !important;
             position: absolute !important;
             right: 0.25rem !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
-            margin-top: 0 !important;
-            bottom: auto !important;
+            margin-bottom: 0 !important;
             flex-shrink: 0 !important;
         }
 
@@ -717,8 +716,8 @@
             .status-dot {
                 width: 10px !important;
                 height: 10px !important;
-                right: 4px !important; /* Moved left slightly */
-                bottom: 4px !important; /* Moved up slightly */
+                right: 6px !important; /* Moved further left */
+                bottom: 6px !important; /* Moved further up */
             }
 
             .username {
@@ -744,13 +743,12 @@
             }
 
             .album-art {
-                width: 36px !important;
-                height: 36px !important;
+                width: 42px !important; /* Increased size for mobile */
+                height: 42px !important;
                 right: 0.5rem !important;
                 top: 50% !important;
                 transform: translateY(-50%) !important;
-                margin-top: 0 !important;
-                bottom: auto !important;
+                margin-bottom: 0 !important;
             }
         }
     </style>
@@ -1442,12 +1440,18 @@
                             activityText.className = 'activity-text';
                             activityText.textContent = `Listening to: ${activity.details || 'Unknown Song'}`;
                             activityText.setAttribute('data-text', `Listening to: ${activity.details || 'Unknown Song'}`);
+                            activityText.style.color = '#ffffff'; // Inline force visibility
+                            activityText.style.opacity = '1';
+                            activityText.style.visibility = 'visible';
                             activityWrapper.appendChild(activityText);
 
                             const artistText = document.createElement('p');
                             artistText.className = 'artist-text';
                             artistText.textContent = `by ${activity.state || 'Unknown Artist'}`;
                             artistText.setAttribute('data-text', `by ${activity.state || 'Unknown Artist'}`);
+                            artistText.style.color = '#ffffff'; // Inline force visibility
+                            artistText.style.opacity = '1';
+                            artistText.style.visibility = 'visible';
                             activityWrapper.appendChild(artistText);
 
                             requestAnimationFrame(() => {
@@ -1475,6 +1479,9 @@
                             activityText.className = 'activity-text';
                             activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
                             activityText.setAttribute('data-text', `${activity.name}: ${activity.details || activity.state || 'No details'}`);
+                            activityText.style.color = '#ffffff'; // Inline force visibility
+                            activityText.style.opacity = '1';
+                            activityText.style.visibility = 'visible';
                             activityWrapper.appendChild(activityText);
 
                             requestAnimationFrame(() => {
@@ -1490,6 +1497,9 @@
                     activityText.className = 'activity-text';
                     activityText.textContent = 'Not doing anything currently';
                     activityText.setAttribute('data-text', 'Not doing anything currently');
+                    activityText.style.color = '#ffffff'; // Inline force visibility
+                    activityText.style.opacity = '1';
+                    activityText.style.visibility = 'visible';
                     activityWrapper.appendChild(activityText);
 
                     requestAnimationFrame(() => {
