@@ -525,14 +525,14 @@
         .discord-card {
             display: flex;
             align-items: center;
-            padding: 0.75rem 0.75rem 0 !important; /* Removed bottom padding */
+            padding: 0.5rem 0.75rem 0 !important; /* Reduced top padding to move everything up */
             background: var(--acrylic-opacity);
             backdrop-filter: blur(20px);
             border-radius: 15px;
-            border: 2px solid transparent !important; /* No bottom border */
+            border: 2px solid transparent !important;
             transition: border 0.3s ease;
-            height: auto !important; /* Dynamic height */
-            min-height: 95px !important; /* Minimum to maintain structure */
+            height: auto !important;
+            min-height: 95px !important;
             position: relative;
             width: 100%;
             box-sizing: border-box;
@@ -562,7 +562,7 @@
             border-radius: 50% !important;
             position: absolute !important;
             bottom: 8px !important;
-            right: 10px !important; /* Moved more to the left */
+            right: 8px !important;
             z-index: 2 !important;
             border: 2px solid var(--bg-dark) !important;
         }
@@ -580,12 +580,14 @@
             min-width: 0;
             height: 100%;
             justify-content: center;
+            position: relative;
+            top: -2px; /* Nudge everything up slightly */
         }
 
         .user-line {
             display: flex;
             align-items: center;
-            gap: 0.5rem; /* Increased space between username and badges */
+            gap: 0.5rem;
             white-space: nowrap;
             overflow: hidden;
             margin-bottom: 0.1rem;
@@ -602,7 +604,7 @@
 
         .badges {
             display: flex;
-            gap: 0.25rem; /* Space between badges unchanged */
+            gap: 0.25rem;
             align-items: center;
             flex-shrink: 0;
         }
@@ -625,6 +627,7 @@
             max-width: 100%;
             position: relative;
             overflow: hidden;
+            margin-top: -2px; /* Shift activity container up */
         }
 
         .activity-text-wrapper {
@@ -632,10 +635,10 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem !important;
-            width: 130px !important; /* Reduced max width */
+            gap: 0.3rem !important; /* Reduced gap for smaller "borders" */
+            width: 160px !important;
             position: relative;
-            top: -6px; /* Moved slightly up */
+            top: -4px;
         }
 
         .activity-text {
@@ -650,7 +653,7 @@
         }
 
         .artist-text {
-            color: #666 !important; /* Darker grey */
+            color: #666 !important;
             margin: 0 !important;
             font-size: 0.7rem !important;
             line-height: 0.9 !important;
@@ -663,7 +666,7 @@
         .activity-text.scrolling,
         .artist-text.scrolling {
             display: inline-block !important;
-            animation: scroll 30s linear infinite !important; /* Slower scrolling */
+            animation: scroll 30s linear infinite !important;
             position: relative !important;
             white-space: nowrap !important;
         }
@@ -689,9 +692,10 @@
             border-radius: 5px !important;
             position: absolute !important;
             right: 0.25rem !important;
-            top: 0 !important; /* Moved way up with override */
+            top: -4px !important; /* Moved further up */
             margin: 0 !important;
             flex-shrink: 0 !important;
+            z-index: 3 !important; /* Ensure it stays on top */
         }
 
         #discord-embed {
@@ -701,8 +705,8 @@
 
         @media (max-width: 768px) {
             .discord-card {
-                min-height: 85px !important; /* Adjusted for mobile */
-                padding: 0.5rem 0.5rem 0 !important; /* Removed bottom padding */
+                min-height: 85px !important;
+                padding: 0.3rem 0.5rem 0 !important; /* Reduced top padding */
             }
 
             .avatar {
@@ -714,7 +718,7 @@
             .status-dot {
                 width: 10px !important;
                 height: 10px !important;
-                right: 6px !important; /* Moved more to the left */
+                right: 6px !important;
                 bottom: 6px !important;
             }
 
@@ -736,16 +740,24 @@
             }
 
             .activity-text-wrapper {
-                width: 130px !important; /* Reduced max width */
-                gap: 0.4rem !important;
-                top: -2px; /* Moved slightly up */
+                width: 130px !important;
+                gap: 0.2rem !important; /* Reduced gap for smaller "borders" */
+                top: -2px;
+            }
+
+            .discord-info {
+                top: -1px; /* Nudge everything up slightly */
+            }
+
+            .activity-container {
+                margin-top: -1px; /* Shift activity container up */
             }
 
             .album-art {
                 width: 42px !important;
                 height: 42px !important;
                 right: 0.5rem !important;
-                top: 2px !important; /* Moved way up with override */
+                top: -2px !important; /* Moved further up */
                 margin: 0 !important;
             }
         }
