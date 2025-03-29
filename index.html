@@ -581,7 +581,7 @@
             height: 100%;
             justify-content: center;
             position: relative;
-            top: 0 !important; /* Adjusted for alignment */
+            top: -2px;
         }
 
         .user-line {
@@ -591,8 +591,6 @@
             white-space: nowrap;
             overflow: hidden;
             margin-bottom: 0.1rem;
-            position: relative;
-            top: -8px !important; /* Moved lower to align with avatar top */
         }
 
         .username {
@@ -628,7 +626,7 @@
             gap: 0.5rem;
             max-width: 100%;
             position: relative;
-            overflow: visible !important;
+            overflow: visible !important; /* Allow album art to extend */
             min-height: 60px;
             margin-top: -2px;
         }
@@ -639,10 +637,10 @@
             display: flex;
             flex-direction: column;
             gap: 0.3rem !important;
-            width: 90px !important; /* Reduced width to prevent overlap */
+            width: 120px !important; /* Reduced width */
             position: relative;
             top: -4px;
-            z-index: 4 !important;
+            z-index: 4 !important; /* Ensure text stays above album art */
         }
 
         .activity-text {
@@ -676,8 +674,12 @@
         }
 
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
 
         .activity-text.scrolling::after,
@@ -692,11 +694,11 @@
             border-radius: 5px !important;
             position: absolute !important;
             right: 0.25rem !important;
-            top: 6px !important; /* Adjusted to align center with avatar */
+            top: -15px !important; /* Move up */
             margin: 0 !important;
             flex-shrink: 0 !important;
-            z-index: 3 !important;
-            outline: 1px solid transparent !important; /* Made invisible */
+            z-index: 3 !important; /* Below text */
+            outline: 1px solid red !important; /* Debug */
         }
 
         #discord-embed {
@@ -741,18 +743,14 @@
             }
 
             .activity-text-wrapper {
-                width: 70px !important; /* Reduced width for mobile */
+                width: 100px !important; /* Reduced width */
                 gap: 0.2rem !important;
                 top: -2px;
-                z-index: 4 !important;
+                z-index: 4 !important; /* Ensure text stays above album art */
             }
 
             .discord-info {
-                top: 0 !important;
-            }
-
-            .user-line {
-                top: -4px !important;
+                top: -1px;
             }
 
             .activity-container {
@@ -765,9 +763,9 @@
                 width: 42px !important;
                 height: 42px !important;
                 right: 0.5rem !important;
-                top: 4px !important; /* Adjusted for mobile */
+                top: -15px !important; /* Move up */
                 margin: 0 !important;
-                outline: 1px solid transparent !important;
+                outline: 1px solid red !important; /* Debug */
             }
         }
     </style>
@@ -1396,9 +1394,8 @@
                 const response = await fetch('https://presencebot-proxy.antonp29.workers.dev/presence');
                 const data = await response.json();
 
-                if (data.error || !response.ok) {
-                    // Display offline state if bot is unreachable
-                    displayOfflineState();
+                if (data.error) {
+                    document.getElementById('discord-profile').innerHTML = '<p>User not found</p>';
                     return;
                 }
 
@@ -1437,7 +1434,7 @@
 
                 const lastSeen = document.getElementById('last-seen');
                 if (data.status === 'offline') {
-                    lastSeen.textContent = data.lastSeen; // Use server-provided lastSeen
+                    lastSeen.textContent = `last seen ${data.lastSeen}`;
                     lastSeen.style.display = 'block';
                     if (isFirstLoad) {
                         lastSeen.classList.add('animate-on-load');
@@ -1535,93 +1532,16 @@
                 isFirstLoad = false;
             } catch (error) {
                 console.error('Error fetching Discord presence:', error);
-                displayOfflineState();
+                document.getElementById('discord-profile').innerHTML = '<p>Error loading status</p>';
             }
-        }
-
-        function displayOfflineState() {
-            const offlineData = {
-                avatarURL: 'https://cdn.discordapp.com/avatars/927715485661954069/0a91dd74d413802514d53ab3dcb0ef7f.webp?size=128',
-                username: 'googlewifi',
-                status: 'offline',
-                lastSeen: 'unknown time ago',
-                badges: [
-                    'hypesquad_bravery',
-                    'active_developer',
-                    'originally_known_as',
-                    'completed_quest'
-                ],
-                activities: []
-            };
-
-            const avatar = document.getElementById('avatar');
-            avatar.src = offlineData.avatarURL;
-            if (isFirstLoad) {
-                avatar.classList.add('animate-on-load');
-            }
-
-            const usernameElement = document.getElementById('username');
-            usernameElement.textContent = offlineData.username;
-            if (isFirstLoad) {
-                usernameElement.classList.add('animate-on-load');
-            }
-
-            const statusDot = document.getElementById('status');
-            statusDot.className = 'status-dot offline';
-            if (isFirstLoad) {
-                statusDot.classList.add('animate-on-load');
-            }
-
-            const badgesDiv = document.getElementById('badges');
-            badgesDiv.innerHTML = '';
-            offlineData.badges.forEach(badge => {
-                const badgeImg = document.createElement('img');
-                badgeImg.src = getBadgeUrl(badge);
-                badgeImg.alt = badge;
-                badgeImg.className = 'badge';
-                if (isFirstLoad) {
-                    badgeImg.classList.add('animate-on-load');
-                }
-                badgesDiv.appendChild(badgeImg);
-            });
-
-            const lastSeen = document.getElementById('last-seen');
-            lastSeen.textContent = offlineData.lastSeen;
-            lastSeen.style.display = 'block';
-            if (isFirstLoad) {
-                lastSeen.classList.add('animate-on-load');
-            }
-
-            const activityWrapper = document.getElementById('activity-text-wrapper');
-            const activityDiv = document.getElementById('activity');
-            activityWrapper.innerHTML = '';
-            activityDiv.innerHTML = '';
-            activityDiv.appendChild(activityWrapper);
-
-            const activityText = document.createElement('p');
-            activityText.className = 'activity-text';
-            activityText.textContent = 'Anthony is currently offline';
-            activityText.setAttribute('data-text', 'Anthony is currently offline');
-            activityText.style.color = '#ffffff';
-            activityText.style.opacity = '1';
-            activityText.style.visibility = 'visible';
-            activityWrapper.appendChild(activityText);
-
-            requestAnimationFrame(() => {
-                if (activityText.scrollWidth > activityWrapper.clientWidth) {
-                    activityText.classList.add('scrolling');
-                }
-            });
-
-            isFirstLoad = false;
         }
 
         function getBadgeUrl(badgeName) {
             const badgeUrls = {
                 'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
                 'hypesquad_brilliance': 'https://cdn.discordapp.com/badge-icons/5e74e9b622f3e4e9c65b97dc6773f999f78a8a5.png',
-                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
-                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
+                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
+                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
                 'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png',
                 'bug_hunter': 'https://cdn.discordapp.com/badge-icons/90a2e0caddd0c0a2f8e1af1dd03db14e.png',
                 'early_supporter': 'https://cdn.discordapp.com/badge-icons/7060786766c9ba94ae9881d77d8ae105.png',
@@ -1641,5 +1561,7 @@
 
         setInterval(fetchDiscordPresence, 30000);
     </script>
-</body>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926a72e9bc3e6740',t:'MTc0MzAzMTk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aa2f95a6cbfb3',t:'MTc0MzAzMzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aed56dbcfb043',t:'MTc0MzAzNjk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926b320bb866bf72',t:'MTc0MzAzOTc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
