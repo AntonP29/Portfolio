@@ -580,7 +580,8 @@
             min-width: 0;
             height: 100%;
             justify-content: center;
-            padding-top: 0.5rem; /* Adjusted to align with avatar top */
+            position: relative;
+            top: -8px !important; /* Moved username and badges lower */
         }
 
         .user-line {
@@ -625,7 +626,7 @@
             gap: 0.5rem;
             max-width: 100%;
             position: relative;
-            overflow: visible !important; /* Allow album art to extend */
+            overflow: visible !important;
             min-height: 60px;
             margin-top: -2px;
         }
@@ -639,7 +640,7 @@
             width: 90px !important; /* Reduced width to prevent overlap */
             position: relative;
             top: -4px;
-            z-index: 4 !important; /* Ensure text stays above album art */
+            z-index: 4 !important;
         }
 
         .activity-text {
@@ -673,12 +674,8 @@
         }
 
         @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
 
         .activity-text.scrolling::after,
@@ -693,10 +690,11 @@
             border-radius: 5px !important;
             position: absolute !important;
             right: 0.25rem !important;
-            top: 0 !important; /* Adjusted to align center with avatar */
-            margin-top: 0.75rem !important; /* Fine-tune vertical alignment */
+            top: 10px !important; /* Moved lower to align centers */
+            margin: 0 !important;
             flex-shrink: 0 !important;
-            z-index: 3 !important; /* Below text */
+            z-index: 3 !important;
+            outline: none !important; /* Removed red border */
         }
 
         #discord-embed {
@@ -744,11 +742,11 @@
                 width: 70px !important; /* Reduced width for mobile */
                 gap: 0.2rem !important;
                 top: -2px;
-                z-index: 4 !important; /* Ensure text stays above album art */
+                z-index: 4 !important;
             }
 
             .discord-info {
-                padding-top: 0.3rem; /* Adjusted for mobile */
+                top: -6px !important; /* Adjusted for mobile */
             }
 
             .activity-container {
@@ -761,8 +759,9 @@
                 width: 42px !important;
                 height: 42px !important;
                 right: 0.5rem !important;
-                top: 0 !important; /* Adjusted for mobile */
-                margin-top: 0.5rem !important; /* Fine-tune vertical alignment */
+                top: 8px !important; /* Adjusted for mobile */
+                margin: 0 !important;
+                outline: none !important;
             }
         }
     </style>
@@ -1385,14 +1384,15 @@
         });
 
         let isFirstLoad = true;
+        let lastOfflineTime = null;
 
         async function fetchDiscordPresence() {
             try {
                 const response = await fetch('https://presencebot-proxy.antonp29.workers.dev/presence');
                 const data = await response.json();
 
-                if (data.error) {
-                    document.getElementById('discord-profile').innerHTML = '<p>User not found</p>';
+                if (data.error || !data.username) {
+                    displayOfflineState();
                     return;
                 }
 
@@ -1431,12 +1431,16 @@
 
                 const lastSeen = document.getElementById('last-seen');
                 if (data.status === 'offline') {
-                    lastSeen.textContent = `last seen ${data.lastSeen}`;
+                    const now = Date.now();
+                    if (!lastOfflineTime) lastOfflineTime = now;
+                    const minutesAgo = Math.floor((now - lastOfflineTime) / 1000 / 60);
+                    lastSeen.textContent = minutesAgo < 1 ? 'last seen less than a minute ago' : `last seen ${minutesAgo} minute${minutesAgo === 1 ? '' : 's'} ago`;
                     lastSeen.style.display = 'block';
                     if (isFirstLoad) {
                         lastSeen.classList.add('animate-on-load');
                     }
                 } else {
+                    lastOfflineTime = null;
                     lastSeen.style.display = 'none';
                 }
 
@@ -1529,16 +1533,53 @@
                 isFirstLoad = false;
             } catch (error) {
                 console.error('Error fetching Discord presence:', error);
-                document.getElementById('discord-profile').innerHTML = '<p>Error loading status</p>';
+                displayOfflineState();
             }
+        }
+
+        function displayOfflineState() {
+            const avatar = document.getElementById('avatar');
+            avatar.src = 'https://cdn.discordapp.com/avatars/927715485661954069/0a91dd74d413802514d53ab3dcb0ef7f.webp?size=128';
+
+            const usernameElement = document.getElementById('username');
+            usernameElement.textContent = 'googlewifi';
+
+            const statusDot = document.getElementById('status');
+            statusDot.className = 'status-dot offline';
+
+            const badgesDiv = document.getElementById('badges');
+            badgesDiv.innerHTML = '';
+            const defaultBadges = [
+                { name: 'hypesquad_bravery', url: 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png' },
+                { name: 'active_developer', url: 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png' },
+                { name: 'originally_known_as', url: 'https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png' },
+                { name: 'completed_quest', url: 'https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png' }
+            ];
+            defaultBadges.forEach(badge => {
+                const badgeImg = document.createElement('img');
+                badgeImg.src = badge.url;
+                badgeImg.alt = badge.name;
+                badgeImg.className = 'badge';
+                badgesDiv.appendChild(badgeImg);
+            });
+
+            const lastSeen = document.getElementById('last-seen');
+            lastSeen.textContent = 'Anthony is currently offline';
+            lastSeen.style.display = 'block';
+
+            const activityWrapper = document.getElementById('activity-text-wrapper');
+            const activityDiv = document.getElementById('activity');
+            activityWrapper.innerHTML = '';
+            activityDiv.innerHTML = '';
+            activityDiv.appendChild(activityWrapper);
         }
 
         function getBadgeUrl(badgeName) {
             const badgeUrls = {
                 'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
                 'hypesquad_brilliance': 'https://cdn.discordapp.com/badge-icons/5e74e9b622f3e4e9c65b97dc6773f999f78a8a5.png',
-                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
-                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
+                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
+                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
                 'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png',
                 'bug_hunter': 'https://cdn.discordapp.com/badge-icons/90a2e0caddd0c0a2f8e1af1dd03db14e.png',
                 'early_supporter': 'https://cdn.discordapp.com/badge-icons/7060786766c9ba94ae9881d77d8ae105.png',
