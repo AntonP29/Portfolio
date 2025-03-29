@@ -580,8 +580,7 @@
             min-width: 0;
             height: 100%;
             justify-content: center;
-            position: relative;
-            top: -2px;
+            padding-top: 0.5rem; /* Adjusted to align with avatar top */
         }
 
         .user-line {
@@ -637,7 +636,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.3rem !important;
-            width: 120px !important; /* Reduced width */
+            width: 90px !important; /* Reduced width to prevent overlap */
             position: relative;
             top: -4px;
             z-index: 4 !important; /* Ensure text stays above album art */
@@ -694,11 +693,10 @@
             border-radius: 5px !important;
             position: absolute !important;
             right: 0.25rem !important;
-            top: -15px !important; /* Move up */
-            margin: 0 !important;
+            top: 0 !important; /* Adjusted to align center with avatar */
+            margin-top: 0.75rem !important; /* Fine-tune vertical alignment */
             flex-shrink: 0 !important;
             z-index: 3 !important; /* Below text */
-            outline: 1px solid red !important; /* Debug */
         }
 
         #discord-embed {
@@ -743,14 +741,14 @@
             }
 
             .activity-text-wrapper {
-                width: 100px !important; /* Reduced width */
+                width: 70px !important; /* Reduced width for mobile */
                 gap: 0.2rem !important;
                 top: -2px;
                 z-index: 4 !important; /* Ensure text stays above album art */
             }
 
             .discord-info {
-                top: -1px;
+                padding-top: 0.3rem; /* Adjusted for mobile */
             }
 
             .activity-container {
@@ -763,9 +761,8 @@
                 width: 42px !important;
                 height: 42px !important;
                 right: 0.5rem !important;
-                top: -15px !important; /* Move up */
-                margin: 0 !important;
-                outline: 1px solid red !important; /* Debug */
+                top: 0 !important; /* Adjusted for mobile */
+                margin-top: 0.5rem !important; /* Fine-tune vertical alignment */
             }
         }
     </style>
@@ -1561,7 +1558,5 @@
 
         setInterval(fetchDiscordPresence, 30000);
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926a72e9bc3e6740',t:'MTc0MzAzMTk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aa2f95a6cbfb3',t:'MTc0MzAzMzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aed56dbcfb043',t:'MTc0MzAzNjk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926b320bb866bf72',t:'MTc0MzAzOTc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
