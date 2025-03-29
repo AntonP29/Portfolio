@@ -12,7 +12,6 @@
             --acrylic-opacity: rgba(0, 0, 0, 0.3);
             --border-grey: #4a4848;
             --green-acrylic: rgba(34, 139, 34, 0.3);
-            --subtext-grey: #777;
         }
 
         .project-card {
@@ -147,9 +146,6 @@
         .hero-content {
             max-width: 600px;
             padding: 2rem;
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 0.5rem !important;
         }
 
         .hero h1 {
@@ -167,7 +163,7 @@
         .hero p {
             font-size: 1.2rem;
             color: #aaa;
-            margin-bottom: 0 !important;
+            margin-bottom: 2rem;
             animation: floatInText 0.5s ease-out 0.5s forwards;
             opacity: 0;
         }
@@ -178,7 +174,6 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            margin-top: 0.5rem !important;
         }
 
         .btn {
@@ -298,12 +293,10 @@
 
             .hero-content {
                 max-width: 100%;
-                gap: 0.3rem !important;
             }
 
             .cta-buttons {
                 justify-content: center;
-                margin-top: 0.3rem !important;
             }
         }
 
@@ -520,253 +513,6 @@
         .progress.fade-out {
             opacity: 0;
         }
-
-        /* Updated Discord Embed CSS */
-        .discord-card {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 0.75rem 0 !important;
-            background: var(--acrylic-opacity);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            border: 2px solid transparent !important;
-            transition: border 0.3s ease;
-            height: auto !important;
-            min-height: 95px !important;
-            position: relative;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .discord-card:hover {
-            border: 2px solid var(--border-grey) !important;
-        }
-
-        .avatar-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .avatar {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            flex-shrink: 0;
-            margin-right: 0.75rem;
-        }
-
-        .status-dot {
-            display: block !important;
-            width: 14px !important;
-            height: 14px !important;
-            border-radius: 50% !important;
-            position: absolute !important;
-            bottom: 8px !important;
-            right: 8px !important;
-            z-index: 2 !important;
-            border: 2px solid var(--bg-dark) !important;
-        }
-
-        .status-dot.online { background-color: #43b581 !important; }
-        .status-dot.idle { background-color: #faa61a !important; }
-        .status-dot.dnd { background-color: #f04747 !important; }
-        .status-dot.offline { background-color: #747f8d !important; }
-
-        .discord-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-            min-width: 0;
-            height: 100%;
-            justify-content: center;
-            position: relative;
-            top: -2px;
-        }
-
-        .user-line {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            white-space: nowrap;
-            overflow: hidden;
-            margin-bottom: 0rem;
-        }
-
-        .username {
-            font-weight: bold;
-            color: var(--text-light);
-            font-size: 1rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .badges {
-            display: flex;
-            gap: 0.25rem;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .badge {
-            width: 16px;
-            height: 16px;
-        }
-
-        .last-seen {
-            font-size: 0.6rem;
-            color: #aaa;
-            margin-top: 0.2rem;
-        }
-
-        .activity-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            max-width: 100%;
-            position: relative;
-            overflow: visible !important; /* Allow album art to extend */
-            min-height: 60px;
-            margin-top: -2px;
-        }
-
-        .activity-text-wrapper {
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem !important;
-            width: 90px !important; /* Reduced width */
-            position: relative;
-            top: -4px;
-            z-index: 4 !important; /* Ensure text stays above album art */
-        }
-
-        .activity-text {
-            color: #ffffff !important;
-            margin: 0 !important;
-            font-size: 1.0rem !important;
-            line-height: 1.2 !important;
-            white-space: nowrap !important;
-            display: inline-block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-
-        .artist-text {
-            color: #666 !important;
-            margin: 0 !important;
-            font-size: 0.7rem !important;
-            line-height: 0.9 !important;
-            white-space: nowrap !important;
-            display: inline-block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-
-        .activity-text.scrolling,
-        .artist-text.scrolling {
-            display: inline-block !important;
-            animation: scroll 30s linear infinite !important;
-            position: relative !important;
-            white-space: nowrap !important;
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        .activity-text.scrolling::after,
-        .artist-text.scrolling::after {
-            content: "     " attr(data-text) !important;
-            display: inline !important;
-        }
-
-        .activity-container .album-art {
-            width: 48px !important;
-            height: 48px !important;
-            border-radius: 5px !important;
-            position: absolute !important;
-            right: 0.25rem !important;
-            top: -15px !important; /* Move up */
-            margin: 0 !important;
-            flex-shrink: 0 !important;
-            z-index: 3 !important; /* Below text */
-        }
-
-        #discord-embed {
-            margin-bottom: 0 !important;
-            padding: 0 !important;
-        }
-
-        @media (max-width: 768px) {
-            .discord-card {
-                min-height: 85px !important;
-                padding: 0.3rem 0.5rem 0 !important;
-            }
-
-            .avatar {
-                width: 2rem;
-                height: 2rem;
-                margin-right: 0.5rem;
-            }
-
-            .status-dot {
-                width: 10px !important;
-                height: 10px !important;
-                right: 6px !important;
-                bottom: 6px !important;
-            }
-
-            .username {
-                font-size: 0.9rem;
-            }
-
-            .badge {
-                width: 14px;
-                height: 14px;
-            }
-
-            .activity-text {
-                font-size: 1.0rem !important;
-            }
-
-            .artist-text {
-                font-size: 0.7rem !important;
-            }
-
-            .activity-text-wrapper {
-                width: 100px !important; /* Reduced width */
-                gap: 0.2rem !important;
-                top: -2px;
-                z-index: 4 !important; /* Ensure text stays above album art */
-            }
-
-            .discord-info {
-                top: -1px;
-            }
-
-            .activity-container {
-                margin-top: -1px;
-                min-height: 50px;
-                overflow: visible !important;
-            }
-
-            .activity-container .album-art {
-                width: 42px !important;
-                height: 42px !important;
-                right: 0.5rem !important;
-                top: -15px !important; /* Move up */
-                margin: 0 !important;
-                outline: 1px solid red !important; /* Debug */
-            }
-        }
     </style>
 </head>
 <body class="loading">
@@ -791,26 +537,6 @@
             <div class="hero-content acrylic">
                 <h1>AntonP29</h1>
                 <p>HTML/CSS | Javascript | iOS Sideloading</p>
-                
-                <section id="discord-embed" class="acrylic">
-                    <div id="discord-profile" class="discord-card">
-                        <div class="avatar-container">
-                            <img id="avatar" src="" alt="Avatar" class="avatar">
-                            <span id="status" class="status-dot"></span>
-                        </div>
-                        <div class="discord-info">
-                            <div class="user-line">
-                                <span id="username" class="username"></span>
-                                <div id="badges" class="badges"></div>
-                            </div>
-                            <div id="last-seen" class="last-seen"></div>
-                            <div id="activity" class="activity-container">
-                                <div id="activity-text-wrapper" class="activity-text-wrapper"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            
                 <div class="cta-buttons">
                     <a href="#projects" class="btn">View Projects</a>
                     <a href="#" class="contact-link btn">Contact Me</a>
@@ -850,10 +576,11 @@
         </footer>
     </div>
 
+    <!-- Popup Overlay and Form -->
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup">
             <h2>Contacting AntonP29!</h2>
-            <button class="close-btn" id="close-btn">×</button>
+            <button class="close-btn" id="close-btn">&times;</button>
             <form action="https://formsubmit.co/68698e12df66a644bb64375d95e5a061" method="POST" id="contact-form">
                 <textarea class="message-box" name="message" placeholder="Start typing to message AntonP29..." required></textarea>
                 <div class="form-bottom">
@@ -1382,185 +1109,7 @@
                 };
                 requestAnimationFrame(startProgress);
             }
-
-            fetchDiscordPresence();
         });
-
-        let isFirstLoad = true;
-
-        async function fetchDiscordPresence() {
-            try {
-                const response = await fetch('https://presencebot-proxy.antonp29.workers.dev/presence');
-                const data = await response.json();
-
-                if (data.error) {
-                    document.getElementById('discord-profile').innerHTML = '<p>User not found</p>';
-                    return;
-                }
-
-                const avatar = document.getElementById('avatar');
-                avatar.src = data.avatarURL;
-                if (isFirstLoad) {
-                    avatar.classList.add('animate-on-load');
-                }
-
-                const usernameElement = document.getElementById('username');
-                usernameElement.textContent = data.username;
-                if (isFirstLoad) {
-                    usernameElement.classList.add('animate-on-load');
-                }
-
-                const statusDot = document.getElementById('status');
-                statusDot.className = `status-dot ${data.status}`;
-                if (isFirstLoad) {
-                    statusDot.classList.add('animate-on-load');
-                }
-
-                const badgesDiv = document.getElementById('badges');
-                badgesDiv.innerHTML = '';
-                if (data.badges && data.badges.length > 0) {
-                    data.badges.forEach(badge => {
-                        const badgeImg = document.createElement('img');
-                        badgeImg.src = getBadgeUrl(badge);
-                        badgeImg.alt = badge;
-                        badgeImg.className = 'badge';
-                        if (isFirstLoad) {
-                            badgeImg.classList.add('animate-on-load');
-                        }
-                        badgesDiv.appendChild(badgeImg);
-                    });
-                }
-
-                const lastSeen = document.getElementById('last-seen');
-                if (data.status === 'offline') {
-                    lastSeen.textContent = `last seen ${data.lastSeen}`;
-                    lastSeen.style.display = 'block';
-                    if (isFirstLoad) {
-                        lastSeen.classList.add('animate-on-load');
-                    }
-                } else {
-                    lastSeen.style.display = 'none';
-                }
-
-                const activityWrapper = document.getElementById('activity-text-wrapper');
-                const activityDiv = document.getElementById('activity');
-                activityWrapper.innerHTML = '';
-                activityDiv.innerHTML = '';
-                activityDiv.appendChild(activityWrapper);
-
-                if (data.activities && data.activities.length > 0 && data.status !== 'offline') {
-                    let activityDisplayed = false;
-                    data.activities.forEach(activity => {
-                        if (activity.name === 'Spotify' && activity.type === 2 && !activityDisplayed) {
-                            const activityText = document.createElement('p');
-                            activityText.className = 'activity-text';
-                            activityText.textContent = `Listening to: ${activity.details || 'Unknown Song'}`;
-                            activityText.setAttribute('data-text', `Listening to: ${activity.details || 'Unknown Song'}`);
-                            activityText.style.color = '#ffffff';
-                            activityText.style.opacity = '1';
-                            activityText.style.visibility = 'visible';
-                            activityWrapper.appendChild(activityText);
-
-                            const artistText = document.createElement('p');
-                            artistText.className = 'artist-text';
-                            artistText.textContent = `by ${activity.state || 'Unknown Artist'}`;
-                            artistText.setAttribute('data-text', `by ${activity.state || 'Unknown Artist'}`);
-                            artistText.style.color = '#666';
-                            artistText.style.opacity = '1';
-                            artistText.style.visibility = 'visible';
-                            if (isFirstLoad) {
-                                artistText.classList.add('animate-on-load');
-                            }
-                            activityWrapper.appendChild(artistText);
-
-                            requestAnimationFrame(() => {
-                                if (activityText.scrollWidth > activityWrapper.clientWidth) {
-                                    activityText.classList.add('scrolling');
-                                }
-                                if (artistText.scrollWidth > activityWrapper.clientWidth) {
-                                    artistText.classList.add('scrolling');
-                                }
-                            });
-
-                            if (activity.assets && activity.assets.largeImage) {
-                                const albumArt = document.createElement('img');
-                                albumArt.src = activity.assets.largeImage;
-                                albumArt.alt = 'Album Art';
-                                albumArt.className = 'album-art';
-                                if (isFirstLoad) {
-                                    albumArt.classList.add('animate-on-load');
-                                }
-                                activityDiv.appendChild(albumArt);
-                            }
-                            activityDisplayed = true;
-                        } else if (!activityDisplayed) {
-                            const activityText = document.createElement('p');
-                            activityText.className = 'activity-text';
-                            activityText.textContent = `${activity.name}: ${activity.details || activity.state || 'No details'}`;
-                            activityText.setAttribute('data-text', `${activity.name}: ${activity.details || activity.state || 'No details'}`);
-                            activityText.style.color = '#ffffff';
-                            activityText.style.opacity = '1';
-                            activityText.style.visibility = 'visible';
-                            activityWrapper.appendChild(activityText);
-
-                            requestAnimationFrame(() => {
-                                if (activityText.scrollWidth > activityWrapper.clientWidth) {
-                                    activityText.classList.add('scrolling');
-                                }
-                            });
-                            activityDisplayed = true;
-                        }
-                    });
-                } else if (data.status !== 'offline') {
-                    const activityText = document.createElement('p');
-                    activityText.className = 'activity-text';
-                    activityText.textContent = 'Not doing anything currently';
-                    activityText.setAttribute('data-text', 'Not doing anything currently');
-                    activityText.style.color = '#ffffff';
-                    activityText.style.opacity = '1';
-                    activityText.style.visibility = 'visible';
-                    activityWrapper.appendChild(activityText);
-
-                    requestAnimationFrame(() => {
-                        if (activityText.scrollWidth > activityWrapper.clientWidth) {
-                            activityText.classList.add('scrolling');
-                        }
-                    });
-                }
-
-                isFirstLoad = false;
-            } catch (error) {
-                console.error('Error fetching Discord presence:', error);
-                document.getElementById('discord-profile').innerHTML = '<p>Error loading status</p>';
-            }
-        }
-
-        function getBadgeUrl(badgeName) {
-            const badgeUrls = {
-                'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
-                'hypesquad_brilliance': 'https://cdn.discordapp.com/badge-icons/5e74e9b622f3e4e9c65b97dc6773f999f78a8a5.png',
-                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
-                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
-                'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png',
-                'bug_hunter': 'https://cdn.discordapp.com/badge-icons/90a2e0caddd0c0a2f8e1af1dd03db14e.png',
-                'early_supporter': 'https://cdn.discordapp.com/badge-icons/7060786766c9ba94ae9881d77d8ae105.png',
-                'originally_known_as': 'https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png',
-                'completed_quest': 'https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png'
-            };
-            return badgeUrls[badgeName] || 'https://cdn.discordapp.com/badge-icons/default.png';
-        }
-
-        const styleSheet = document.createElement('style');
-        styleSheet.innerHTML = `
-            .animate-on-load {
-                animation: floatInText 0.5s ease-out forwards;
-            }
-        `;
-        document.head.appendChild(styleSheet);
-
-        setInterval(fetchDiscordPresence, 30000);
     </script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926a72e9bc3e6740',t:'MTc0MzAzMTk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aa2f95a6cbfb3',t:'MTc0MzAzMzkzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926aed56dbcfb043',t:'MTc0MzAzNjk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'926b320bb866bf72',t:'MTc0MzAzOTc5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
