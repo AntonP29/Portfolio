@@ -1539,26 +1539,21 @@
 
         function displayOfflineState() {
             const avatar = document.getElementById('avatar');
-            avatar.src = 'https://cdn.discordapp.com/avatars/927715485661954069/0a91dd74d413802514d53ab3dcb0ef7f.webp?size=128';
+            avatar.src = 'https://cdn.discordapp.com/avatars/927715485661954069/your-avatar-hash.png'; // Replace with your actual avatar URL
 
             const usernameElement = document.getElementById('username');
-            usernameElement.textContent = 'googlewifi';
+            usernameElement.textContent = 'AntonP29';
 
             const statusDot = document.getElementById('status');
             statusDot.className = 'status-dot offline';
 
             const badgesDiv = document.getElementById('badges');
             badgesDiv.innerHTML = '';
-            const defaultBadges = [
-                { name: 'hypesquad_bravery', url: 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png' },
-                { name: 'active_developer', url: 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png' },
-                { name: 'originally_known_as', url: 'https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png' },
-                { name: 'completed_quest', url: 'https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png' }
-            ];
+            const defaultBadges = ['nitro', 'active_developer']; // Add your actual badges here
             defaultBadges.forEach(badge => {
                 const badgeImg = document.createElement('img');
-                badgeImg.src = badge.url;
-                badgeImg.alt = badge.name;
+                badgeImg.src = getBadgeUrl(badge);
+                badgeImg.alt = badge;
                 badgeImg.className = 'badge';
                 badgesDiv.appendChild(badgeImg);
             });
@@ -1578,8 +1573,8 @@
             const badgeUrls = {
                 'nitro': 'https://cdn.discordapp.com/badge-icons/2ba86e60203bd8e6da3193a92a1d9a8ddec9ed3.png',
                 'hypesquad_brilliance': 'https://cdn.discordapp.com/badge-icons/5e74e9b622f3e4e9c65b97dc6773f999f78a8a5.png',
-                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
-                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
+                'hypesquad_bravery': 'https://cdn.discordapp.com/badge-icons/8a02d44e515925d73d2ea1f089e1b9f1b4440e0.png',
+                'hypesquad_balance': 'https://cdn.discordapp.com/badge-icons/3aa41de486fa12454c3761e8e223442e.png',
                 'active_developer': 'https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png',
                 'bug_hunter': 'https://cdn.discordapp.com/badge-icons/90a2e0caddd0c0a2f8e1af1dd03db14e.png',
                 'early_supporter': 'https://cdn.discordapp.com/badge-icons/7060786766c9ba94ae9881d77d8ae105.png',
